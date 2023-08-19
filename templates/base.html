@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="has-background-primary-light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock title %}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+    function noenter() {
+  return !(window.event && window.event.keyCode == 13); }
+  </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="{% static 'index.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/IamEinstein/Djank/gh-pages/sources/bank-icon.jpg" type="image/x-icon">
+    <style>
+      body {
+        padding: 5%;
+        transition-duration: 3s;
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    {% block body %}{% endblock body %}
+  </body>
+</html>

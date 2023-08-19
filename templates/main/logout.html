@@ -1,0 +1,19 @@
+{% extends 'base.html' %}   
+{% block title %}{{title}}{% endblock title %}
+{% block body %}
+
+<h1 id="text" class=" text-info text-center">{{text}}</h1>
+<br><br><br>
+<div class="cssload-loader">
+	<div class="cssload-inner cssload-one"></div>
+	<div class="cssload-inner cssload-two"></div>
+	<div class="cssload-inner cssload-three"></div>
+</div>
+<script>
+url =window.location.origin 
+setTimeout(function(){window.location.replace(window.location.hostname),2300)
+window.setInterval(function(){
+document.getElementById("text").innerHTML += "."
+},650)
+</script>
+{% endblock body %}
