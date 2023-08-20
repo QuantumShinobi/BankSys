@@ -22,7 +22,6 @@ class User(models.Model):
         if bot is False:
             if type(self.password) == memoryview:
                 if bcrypt.checkpw(bytes(pwd, 'utf-8'), self.password.tobytes()):
-
                     response = render(request, 'main/logout.html',
                                       context={"title": "Login",
                                                "text": "Logging you in"})
@@ -37,12 +36,10 @@ class User(models.Model):
                                                "text": "Logging you in"})
                     response.set_cookie("user-identity", str(self.unique_id))
                     return response
+                return render(request, "main/login.html", context={"error": "Password is incorrect"})
 
         elif bot == True:
             return render(request, "main/login.html", context={"error": "Password is incorrect"})
-        elif bot is True:
-
-            return bcrypt.checkpw(bytes(pwd, 'utf-8'), bytes(self.password, 'utf-8'))
 
     def transaction(self, new_transaction_created):
         jsonDec = json.decoder.JSONDecoder()
@@ -105,6 +102,8 @@ class Transaction(models.Model):
     amount = models.BigIntegerField(null=False, default=100)
     type = models.CharField(max_length=10, choices=(
         ("add", "add"), ("withdraw",  "withdraw")))
+    reason = models.CharField(
+        max_length=256, default="No Reason provided", null=False)
     transaction_id = models.UUIDField(
         unique=True, default=uuid.uuid4, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)

@@ -74,8 +74,9 @@ class LoggedInView(View):
     def post(request):
         username = request.POST['username']
         password = request.POST['password']
-        if User.objects.filter(username=username).exists() is True:
+        if User.objects.filter(username=username).exists() == True:
             user = User.objects.get(username=username)
+            print(user)
             return user.authenticate(password, request)
         return render(request, "main/login.html", context={'error': "There is no account associated with this username"})
 
@@ -91,13 +92,14 @@ def logout(request):
 def add(request):
     if request.method == "POST":
         money_to_add = request.POST['add_amount']
+        reason = request.POST['reason']
         id = request.COOKIES['user-identity']
         user = User.objects.get(unique_id=id)
         try:
             user.bank_balance += int(money_to_add)
             user.save()
             new_transaction_created = Transaction(
-                user=user, amount=money_to_add, type="add")
+                user=user, amount=money_to_add, type="add", reason=reason)
             user.transaction(new_transaction_created)
         except ValueError:
             return render(request, "error.html", context={"error": "How can u add a non-number field to your bank balance ?"})
@@ -108,19 +110,20 @@ def add(request):
 def withdraw(request):
     if request.method == "POST":
         money_to_withdraw = request.POST['withdraw_amount']
+        reason = request.POST['reason']
         id = request.COOKIES['user-identity']
         user = User.objects.get(unique_id=id)
         try:
             money_to_withdraw = int(money_to_withdraw)
         except ValueError:
-            return render(request, "error.html", context={"error": "How can u withdraw a non-number field to your bank balance ?"})
+            return render(request, "error.html", context={"error": "Please enter an integer"})
 
         if int(money_to_withdraw) > user.bank_balance:
-            return render(request, "error.html", context={"error": "How can your withdraw amount be greater than your bank balance"})
+            return render(request, "error.html", context={"error": "You dont have that much money. YOu BrOkE Bruh 🙁 💸"})
         user.bank_balance -= int(money_to_withdraw)
         user.save()
         new_transaction_created = Transaction(
-            user=user, amount=money_to_withdraw, type="withdraw")
+            user=user, amount=money_to_withdraw, type="withdraw", reason=reason)
         user.transaction(new_transaction_created)
         return redirect("main:index")
     return render(request, "error.html", context={"error": "Access Denied"})
@@ -173,6 +176,7 @@ def transaction_list(request):
         user = User.get_user(request=request)
         try:
             transaction_list = user.get_transactions()
+            print(transaction_list)
         except TypeError:
             return render(request, "main/transactions.html", context={"no_t": "You have no transactions"})
         return render(request, "main/transactions.html", context={"transactions": transaction_list, "host": request.META['HTTP_HOST']})

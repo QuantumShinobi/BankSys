@@ -9,7 +9,9 @@ Transaction Details
 <li><h3 class="text-success">Amount - {{transaction.amount}}</h3>
 <li><h3 class="text-success">Type - {{transaction.type}}</h3>
 <li><h3 class="text-success">Performed By  - {{user.username}}</h3>
+    <li><h3 class="text-success">Reason - {{transaction.reason}}</h3>
 <li><h3 class="text-success">Time - {{transaction.timestamp}} (UTC)</h3>
+
 </ul>
 <a href="{% url 'main:transaction_list' %}" class="btn btn-primary">Go Back</a>
 {% endif %}
