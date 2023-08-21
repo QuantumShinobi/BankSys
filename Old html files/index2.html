@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% block title %}Index{% endblock title %}
+{% block body %}
+{% load static %}
+<script src="{% static 'bank.js' %}"></script>
+<div id="non-animation">
+<div style="display:none;"class="alert alert-danger" id="amount_less">The amount for transfer is less than your bank balance</div>
+<div style="display:none;"class="alert alert-success" id="transferred">Your transfer has been completed</div>
+
+
+<div id="main" style="display:block;">
+
+<div style="display: flex;justify-content: space-between;"class="flex">
+<div class="flex-one">
+<h1 id="name" class="has-text-weight-medium">Hi {{user.name}}</h1>
+</div>
+<div style="display:flex; flex-direction:column;" class="flex-3">
+<i class="fa-4x fas fa-user-friends" style="text-decoration:none;"></i>
+</div>
+
+
+<div style="display:flex; flex-direction:column;" class="flex-2">
+<a href="{% url 'main:account' %}">
+<i style="text-decoration:none;" class="fa-4x fas fa-cogs" id="icon"></i>
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="p-2 bi bi-gear" viewBox="0 0 16 16"> <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/> <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/> </svg>
+<br>
+&nbsp;<span class="text-xl">Settings</span>
+</a>
+
+</div>
+</div>
+
+
+<h2>Your bank balance is <span class="text-success">${{user.bank_balance}}</h2></span>
+<br><br>
+<button class="btn btn-primary" onclick="show()">
+Record Transactions
+</button>
+{% comment %} Transactions file {% endcomment %}
+<br><br><br><br>
+<h1>Transaction History</h1>
+<ul>
+{% if transactions %}
+    {% for transaction in transactions %}
+   <li> <a class="text-primary" href="http://{{host}}/transaction/{{transaction.transaction_id}}">{{transaction.amount}} - {{transaction.type}} at {{transaction.timestamp}}</a>
+
+    {% endfor %}
+</ul>
+<form action="{% url 'main:delete_transactions' %}" method="post">
+<script>
+  function WarningPopup1() {
+  document.getElementById("popUp1").style.display = "block";
+}
+function cancel() {
+  document.getElementById("popUp1").style.display = "none";
+}
+</script>
+<span class="btn btn-danger" onclick="WarningPopup1()" value="">Delete transaction history</span>
+<div class="modal" id="popUp1">
+{% csrf_token %}
+  <span class="modal-content"  id="myPopup1">
+  <h1 class="text"><u>Warning</u> ⚠</h1>
+  <h2 class="text">Are you sure that you want to change your delete your transaction history ?</h2>
+  <h4 class="text"> <b>THIS ACTION IS IRREVERSIBLE!!</b> </h4>
+  <br>
+  <input type="submit" value="Yes, Change it" name="submit" class="btn btn-primary shadow-lg">
+  <br>
+  <span onclick="cancel()" class="btn btn-success">No, Go Back</span> 
+  </span>
+</div>
+</form> 
+
+{% elif no_t %}
+<div class="alert alert-danger">{{no_t}}</div>
+
+{% endif %}
+
+
+<br><br>
+<a class="btn btn-danger" href="{% url 'main:logout'%}">Logout</a>
+<br><br>
+<button onclick="WarningPopup()" class="btn-danger btn">Delete your account</button>
+</div>
+{% comment %} Transactions form {% endcomment %}
+<div style="display:none;" id="transactions">
+<button class="btn btn-primary" onclick="add()">
+Add money
+</button>
+<button class="btn btn-primary" onclick="withdraw()">
+Withdraw Money
+</button>
+<button class="btn btn-primary" onclick="back()">
+Go back
+</button>
+</div>
+
+
+{% comment %} Add money form {% endcomment %}
+
+<div style="display:none;" id="add">
+<form id="add_form" action="{% url 'main:add' %}" method="post">
+{% csrf_token %}
+<div class="row g-1 align-items-center">
+<div class="col-auto">
+<b><label class="has-text-weight-bold  has-text-centered is-size-5" for="add_amount">Amount added</label></b>
+<input autocomplete="off"  onkeypress="return noenter()" class="form-control" type="text" placeholder="Enter amount" name="add_amount" id="add_amount" required>
+<br>
+<b><label class="has-text-weight-bold  has-text-centered is-size-5" for="reason">Reason</label></b>
+<input autocomplete="off"  onkeypress="return noenter()" class="form-control" type="text" placeholder="Reason" name="reason" id="reason" required>
+<br>
+
+<span id="add_btn"  class="btn btn-primary" value="Add money">Add money</span>
+</div>
+</div>
+
+<br>
+</form>
+<button class="btn btn-primary" onclick="back()">
+Go back
+</button>
+</div>
+
+
+{% comment %} Withdraw form {% endcomment %}
+
+<div style="display:none;" id="withdraw">
+<form id="minus_form" action="{% url 'main:withdraw' %}" method="post">
+{% csrf_token %}
+<div class="row g-1 align-items-center">
+  <div class="col-auto">
+<b><label class="has-text-weight-bold  has-text-centered is-size-5" for="withdraw_amount">Amount to withdraw</label></b>
+<input autocomplete="off"  onkeypress="return noenter()" class="form-control" type="text" placeholder="Amount to withdraw" name="withdraw_amount" id="withdraw_amount" required>
+<br>
+<br>
+<b><label class="has-text-weight-bold  has-text-centered is-size-5" for="reason">Reason</label></b>
+<input autocomplete="off"  onkeypress="return noenter()" class="form-control" type="text" placeholder="Reason" name="reason" id="reason" required>
+<br>
+<span class="btn btn-primary" id="minus_btn" value="withdraw money">Withdraw money</span>
+  </div>
+  </div>
+
+<br>
+
+</form>
+<button class="btn btn-primary" onclick="back()">
+Go back
+</button>
+</div>
+
+
+
+
+
+<div class="modal" id="popUp">
+<form action="{% url 'main:delete_account' %}" method="post">
+{% csrf_token %}
+  <span class="modal-content"  id="myPopup">
+  <h1 class="text"><u>Warning</u> ⚠</h1>
+  <h2 class="text">Are you sure that you want to delete this account</h2>
+  <h4 class="text"> <b>THIS ACTION IS IRREVERSIBLE</b> </h4>
+  <br>
+  <input type="submit" value="Yes, Delete my account" name="submit" class="btn btn-primary shadow-lg">
+  <br>
+  <span onclick="cancel()" class="btn btn-success">No, Go Back</span>
+  </form>
+  
+  </span> 
+
+</div>
+
+</div>
+
+<div id="animation" style="display:none;">
+<h1 class="text-center" id="animation-text">Recording transaction</h1>
+<br>
+<div class="cssload-loader">
+	<div class="cssload-inner cssload-one"></div>
+	<div class="cssload-inner cssload-two"></div>
+	<div class="cssload-inner cssload-three"></div>
+</div>
+</div>
+{% endblock body %}

@@ -12,7 +12,11 @@ class IndexView(View):
     def get(request):
         if isinstance(User.get_user(request=request), User):
             user = User.get_user(request=request)
-            return render(request, 'main/index.html', context={"user": user, })
+            try:
+                transaction_list = user.get_transactions()
+            except TypeError:
+                transaction_list = ['No transactions']
+            return render(request, 'main/index.html', context={"user": user, "transactions": transaction_list, "host": request.META['HTTP_HOST']})
         return User.get_user(request=request)
 
 

@@ -2,85 +2,114 @@
 {% block title %}Your account{% endblock title %}
 {% block body %}
 {% load static %}
-    
-<script src="{% static 'account.js' %}"></script>
-{% comment %} ALERT MSGS {% endcomment %}
-<div id="non-animation">
-<div class=" alert alert-primary" style="display:none;" id="pwd_change_alert">Your password has been changed </div>
-<div class=" alert alert-primary" style="display:none;" id="t_list_erase">Your transaction history was deleted </div>
 
-{% comment %} ACCOUNT INFO {% endcomment %}
-<div id="main" class="shadow-none p-3 mb-5 bg-light rounded">
-<h1 class="text">Your account info</h1>
-{% if warning %}
-<div class="alert alert-warning">{{warning}}</div>
-{% endif %}
-{% if warning2 %}
-<div class="alert alert-warning">{{warning2}}</div>
-{% endif %}
-<ul>
-<h3 class="text text-primary"> Name  - {{user.name}}</h3>
-<h3 class="text text-primary"> Balance  - {{user.bank_balance}}</h3>
-<h3 class="text text-primary"> Username  - {{user.username}}</h3>
-<br>
-<br>
-</ul>
-<br>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<a class="btn btn-primary" href="{% url 'main:index' %}">
-Go back
-</a>
-<a class="btn btn-primary" href="{% url 'main:transaction_list' %}">
-See transaction history</a>
-<button class="btn btn-dark" onclick="show_pwd_form()">Change Password</button>
-</div>
-
-
-
-
-{% comment %} CHANGE PASSWORD FORM {% endcomment %}
-<div style="display:none;" id="pwd_form">
-<form action="{% url 'main:change_pwd' %}" method="post">
-<div class="row g-1 align-items-center">
-<div class="col-auto">
-<b><h1 class="has-text-weight-bold  has-text-centered is-size-5" for="password">New password</h1></b>
-<br>
-<input class="form-control" type="text" placeholder="New Password" name="password" id="password" required>
-<br>
-<span class="btn btn-danger" onclick="WarningPopup()" value="Change password">Change password </span>
-<span class="btn btn-success" onclick="back()">Go back</span>
-{% comment %} FINAL CHECK POPUP DIV {% endcomment %}
-<div class="modal" id="popUp">
-{% csrf_token %}
-  <span class="modal-content"  id="myPopup">
-  <h1 class="text"><u>Warning</u> ⚠</h1>
-  <h2 class="text">Are you sure that you want to change your passoword ?</h2>
-  <h4 class="text"> <b>THIS ACTION IS IRREVERSIBLE</b> </h4>
-  <br>
-  <input type="submit" value="Yes, Change it" name="submit" class="btn btn-primary shadow-lg">
-  <br>
-  <span onclick="cancel()" class="btn btn-success">No, Go Back</span>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5; /* Light gray background */
+  }
   
-  </span> 
-</form>
+  .custom-card {
+    border-radius: 20px;
+    background-color: #ffffff; /* White card background */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .info-section {
+    flex: 1;
+  }
+  
+  .image-section {
+    flex: 1;
+    text-align: right;
+  }
+  
+  .user-image {
+    width: 150px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  
+  .btn-spacing {
+    margin-right: 10px;
+  }
+  
+  .custom-heading {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+  }
+  
+  .btn-dynamic {
+    margin-top: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-dynamic:hover {
+    transform: scale(1.05);
+  }
+</style>
 
-</div>
+<script src="{% static 'account.js' %}"></script>
 
-</div>
-</div>
-</div>
-</div>
+<div id="non-animation">
+  <div class="alert alert-primary d-none" id="pwd_change_alert">Your password has been changed</div>
+  <div class="alert alert-primary d-none" id="t_list_erase">Your transaction history was deleted</div>
 
+  <div id="main" class="custom-card">
+    <div class="info-section">
+      <h1 class="display-4 custom-heading">Your Account Information</h1>
+      {% if warning %}
+      <div class="alert alert-warning mt-4">{{ warning }}</div>
+      {% endif %}
+      {% if warning2 %}
+      <div class="alert alert-warning mt-4">{{ warning2 }}</div>
+      {% endif %}
+      <ul class="list-unstyled mt-4">
+        <li class="h5 text-primary">Name: {{ user.name }}</li>
+        <li class="h5 text-primary">Balance: {{ user.bank_balance }}</li>
+        <li class="h5 text-primary">Username: {{ user.username }}</li>
+      </ul>
 
+      <a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:index' %}">Go back</a>
+      <a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:transaction_list' %}">See transaction history</a>
+      <button class="btn btn-dark btn-spacing btn-dynamic" onclick="show_pwd_form()">Change Password</button>
+    </div>
 
-<div id="animation" style="display:none;">
-<h1 class="text-center" id="animation-text">Trying to add your mail</h1>
-<br>
-<div class="cssload-loader">
-	<div class="cssload-inner cssload-one"></div>
-	<div class="cssload-inner cssload-two"></div>
-	<div class="cssload-inner cssload-three"></div>
-</div>
+    <div class="image-section">
+      <img class="user-image" src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/placeholder%20img.jpg?alt=media&token=1ac6563f-0d5f-47dc-bad9-222e89ed73c4" alt="User Image"> <!-- Replace with actual image path -->
+    </div>
+  </div>
+
+  <div class="d-none" id="pwd_form">
+    <form action="{% url 'main:change_pwd' %}" method="post">
+      {% csrf_token %}
+      <div class="row align-items-center">
+        <div class="col-md-auto">
+          <h1 class="font-weight-bold mb-3" for="password">New Password</h1>
+          <input class="form-control mb-2" type="password" placeholder="Enter New Password" name="password" id="password" required>
+          <button type="button" class="btn btn-danger btn-spacing btn-dynamic" onclick="WarningPopup()">Change Password</button>
+          <button type="button" class="btn btn-secondary btn-dynamic" onclick="back()">Cancel</button>
+        </div>
+      </div>
+      <div class="modal" id="popUp">
+        <div class="modal-content">
+          <h1 class="font-weight-bold text-danger">Warning ⚠</h1>
+          <h2 class="font-weight-bold">Are you sure you want to change your password?</h2>
+          <h4 class="font-weight-bold">This action is irreversible.</h4>
+          <button type="submit" class="btn btn-primary shadow-lg btn-spacing btn-dynamic">Yes, Change It</button>
+          <button type="button" class="btn btn-secondary btn-dynamic" onclick="cancel()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock body %}
-

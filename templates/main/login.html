@@ -3,35 +3,23 @@
 
 {% block body %}
 {% if error %}
-<div  role="alert"class="alert alert-danger">{{error}}</div>
+<div role="alert" class="alert alert-danger">{{ error }}</div>
 {% endif %}
 <form action="{% url 'main:logged_in' %}" method="post">
-{% csrf_token %}
-<h1>Login</h1>
-<div class="row g-1 align-items-center">
-  <div class="col-auto">
-<label class="has-text-weight-medium  has-text-centered is-size-5" for="username">Username</label>
-<input class="form-control" aria-describedby="UsernameHelpInline" type="text" placeholder="Username" name="username" id="username" required>
+  {% csrf_token %}
+  <h1 class="font-weight-bold display-4" style="font-family: 'Arial', sans-serif;">Login</h1>
+  <div class="form-group">
+    <label for="username" class="font-weight-medium h5">Username</label>
+    <input class="form-control rounded-pill" type="text" placeholder="Username" name="username" id="username" required>
   </div>
+  <div class="form-group">
+    <label for="password" class="font-weight-medium h5">Password</label>
+    <input class="form-control rounded-pill" type="password" placeholder="Password" name="password" id="password" required>
   </div>
-</div>
-<br>
-
-<div class="row g-10 align-items-center">
-  <div class="col-auto">
-<label class="has-text-weight-medium  has-text-centered is-size-5" for="password">Password</label>
-<input class="form-control" aria-describedby="passwordHelpInline" type="password" placeholder="Password" name="password" id="password" required>
-  </div>
-  </div>
-</div>
-
-<br><input class="btn btn-primary" type="submit" value="Login" required>
-
+  <br>
+  <button class="btn btn-primary btn-lg rounded-pill animate__animated animate__fadeInLeft" type="submit">Login</button>
 </form>
 <br>
-<a class="btn-link" href="{% url 'main:signup'%}">Don't have an account yet ? <br> Signup</a>
+<p class="font-weight-medium"><a href="{% url 'main:signup' %}" style="color: blue;">Don't have an account yet? Signup</a></p>
 <br>
-<br>
-
-
 {% endblock body %}

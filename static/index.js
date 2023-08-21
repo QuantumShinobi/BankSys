@@ -3,6 +3,7 @@ function WarningPopup() {
 }
 function cancel() {
   document.getElementById("popUp").style.display = "none";
+  document.getElementById("popUp1").style.display = "none";
 }
 window.onclick = function (event) {
   if (event.target == document.getElementById("popUp")) {
@@ -10,3 +11,6 @@ window.onclick = function (event) {
   }
 };
 const isEmpty = (str) => !str.trim().length;
+function WarningPopup1() {
+  document.getElementById("popUp1").style.display = "block";
+}
