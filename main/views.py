@@ -5,6 +5,18 @@ from django.shortcuts import redirect, render
 from .models import *
 from .gen import *
 from django.views import View
+from django.http import JsonResponse
+
+
+class SetTimezoneView(View):
+    def get(self, request):
+        return render(request, "main/tz/html")
+
+    def post(self, request):
+        user_timezone = request.POST.get('timezone')
+        # Set the timezone in user's session or database
+        request.session['user_timezone'] = user_timezone
+        return JsonResponse({'message': 'Timezone set successfully'})
 
 
 class IndexView(View):
@@ -16,7 +28,7 @@ class IndexView(View):
                 transaction_list = user.get_transactions()
             except TypeError:
                 transaction_list = ['No transactions']
-            return render(request, 'main/index.html', context={"user": user, "transactions": transaction_list, "host": request.META['HTTP_HOST']})
+            return render(request, 'main/index.html', context={"user": user, "transactions": transaction_list[-5::], "host": request.META['HTTP_HOST']})
         return User.get_user(request=request)
 
 

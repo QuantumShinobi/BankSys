@@ -9,6 +9,7 @@ function clear_query_string() {
     window.history.replaceState({}, document.title, clean_uri);
   }
 }
+
 function back() {
   location.reload();
 }

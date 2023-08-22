@@ -14,6 +14,8 @@ class User(models.Model):
         unique=True, default=uuid.uuid4, editable=False)
     transaction_list = models.CharField(
         max_length=10485700, null=True, default=None)
+    currency = models.CharField(max_length=256, choices=(("Japanese Yen (JPY)", "Japanese Yen (JPY)"), (
+        "US Dollars",  "US Dollars (USD)"), ("Indian Ruppees (INR)", "Indian Ruppees (INR)")), default="US Dollars (USD)")
 
     def __str__(self):
         return self.username

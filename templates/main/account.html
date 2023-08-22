@@ -80,8 +80,26 @@
       </ul>
 
       <a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:index' %}">Go back</a>
-      <a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:transaction_list' %}">See transaction history</a>
-      <button class="btn btn-dark btn-spacing btn-dynamic" onclick="show_pwd_form()">Change Password</button>
+      <a class="btn btn-success btn-spacing btn-dynamic" href="{% url 'main:transaction_list' %}">See transaction history</a>
+      <button class="btn btn-warning btn-spacing btn-dynamic" onclick="show_pwd_form()">Change Password</button>
+      <br><br>
+      <a class="btn btn-danger btn-spacing btn-dynamic" href="{% url 'main:logout' %}">Logout</a>
+      <br><br>
+      <button onclick="WarningPopup1()" class="btn-danger btn">Delete your account</button>
+<div class="modal" id="popUp1">
+  <form action="{% url 'main:delete_account' %}" method="post">
+    {% csrf_token %}
+    <div class="modal-content" id="myPopup1">
+      <h1 class="text"><u>Warning</u> ⚠</h1>
+      <h2 class="text">Are you sure that you want to delete this account</h2>
+      <h4 class="text"> <b>THIS ACTION IS IRREVERSIBLE</b> </h4>
+      <br>
+      <input type="submit" value="Yes, Delete my account" name="submit" class="btn btn-primary shadow-lg">
+      <br>
+      <span onclick="cancel()" class="btn btn-success">No, Go Back</span>
+    </div>
+  </form>
+</div>
     </div>
 
     <div class="image-section">
@@ -89,7 +107,7 @@
     </div>
   </div>
 
-  <div class="d-none" id="pwd_form">
+<div style="display:none;" id="pwd_form">
     <form action="{% url 'main:change_pwd' %}" method="post">
       {% csrf_token %}
       <div class="row align-items-center">

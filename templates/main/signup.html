@@ -2,84 +2,66 @@
 {% block title %}
 Sign Up
 {% endblock title %} 
+
 {% block body %} 
+<style>
+  /* Add this CSS in your stylesheet or within a <style> tag */
+.custom-input {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  width: 20%; /* Adjust the width as desired */
+  transition: border-color 0.3s ease-in-out;
+}
+
+.custom-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.link-animation {
+  animation: animate__animated animate__fadeInUp; /* Add the desired animation class */
+}
+</style>
+
 {% if error %}
 <div role="alert" class="alert alert-danger">{{error}}</div>
 {% endif %}
 
-<form id="login-form " action="{% url 'main:signed_up' %}" method="post">
+<form id="login-form" action="{% url 'main:signed_up' %}" method="post" class="animate__animated animate__rotateInUpRight animate__fast">
   {% csrf_token %}
   <h1 class="has-text-weight-bold has-text-centered is-size-1">Sign up</h1>
+
   <div class="row g-1 align-items-center">
-    <div class="col-auto">
-      <label
-        class="has-text-weight-medium has-text-centered is-size-5"
-        for="name"
-        >Name</label
-      >
-      <input
-        class="form-control"
-        type="text"
-        placeholder="Name"
-        name="name"
-        id="name"
-        required
-      />
-    </div>
+      <label class="has-text-weight-medium has-text-centered is-size-5" for="name">Name</label>
+      <input class="form-control custom-input" type="text" placeholder="Name" name="name" id="name" required />
   </div>
 
   <br />
 
   <div class="row g-1 align-items-center">
-    <div class="col-auto">
-      <label
-        class="has-text-weight-medium has-text-centered is-size-5"
-        for="username"
-        >Username</label
-      >
-      <input
-        class="form-control"
-        aria-describedby="UsernameHelpInline"
-        type="text"
-        placeholder="Username"
-        name="username"
-        id="username"
-        required
-      />
-    </div>
+      <label class="has-text-weight-medium has-text-centered is-size-5" for="username">Username</label>
+      <input class="form-control custom-input" aria-describedby="UsernameHelpInline" type="text" placeholder="Username" name="username" id="username" required />
   </div>
-  <br />
-  <div class="row g-10 align-items-center">
-    <div class="col-auto">
-      <label
-        class="has-text-weight-medium has-text-centered is-size-5"
-        for="password"
-        >Password</label
-      >
-      <input
-        class="form-control"
-        aria-describedby="passwordHelpInline"
-        type="password"
-        placeholder="Password"
-        name="password"
-        id="password"
-        required
-      />
-    </div>
-  </div>
+
   <br />
 
-  <input
-    id="sign-up"
-    class="btn btn-primary"
-    type="submit"
-    value="Sign Up"
-    required
-  />
+  <div class="row g-1 align-items-center">
+      <label class="has-text-weight-medium has-text-centered is-size-5" for="password">Password</label>
+      <input class="form-control custom-input" aria-describedby="passwordHelpInline" type="password" placeholder="Password" name="password" id="password" required />
+  </div>
+
+  <br />
+
+  <input id="sign-up" class="btn btn-primary" type="submit" value="Sign Up" required />
 </form>
+
 <br />
 
-<a class="btn-link" href="{% url 'main:login'%}">
-  Already have an account, Login</a
->
+<div class="animate__animated animate__bounce">
+  <a class="btn bg-info-subtle" href="{% url 'main:login'%}">
+  Already have an account? Login</a>
+</div>
 {% endblock body %}

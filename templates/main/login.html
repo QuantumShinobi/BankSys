@@ -1,25 +1,56 @@
 {% extends 'base.html' %}
 {% block title %}Login{% endblock title %}
 
+{% block styles %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% endblock styles %}
+
 {% block body %}
+<style>
+  /* Add this CSS in your stylesheet or within a <style> tag */
+.custom-input {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  width: 20%; /* Adjust the width as desired */
+  transition: border-color 0.3s ease-in-out;
+}
+
+.custom-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.link-animation {
+  animation: animate__animated animate__fadeInUp; /* Add the desired animation class */
+}
+
+</style>
 {% if error %}
 <div role="alert" class="alert alert-danger">{{ error }}</div>
 {% endif %}
-<form action="{% url 'main:logged_in' %}" method="post">
+<form action="{% url 'main:logged_in' %}" method="post" class="">
+  <div class="animate__animated animate__fadeInDownBig">
   {% csrf_token %}
-  <h1 class="font-weight-bold display-4" style="font-family: 'Arial', sans-serif;">Login</h1>
+  <h1 class="font-weight-bold display-4 fw-bold" style="font-family: 'Poppins', sans-serif;">Login</h1>
+  <br>
   <div class="form-group">
     <label for="username" class="font-weight-medium h5">Username</label>
-    <input class="form-control rounded-pill" type="text" placeholder="Username" name="username" id="username" required>
-  </div>
-  <div class="form-group">
-    <label for="password" class="font-weight-medium h5">Password</label>
-    <input class="form-control rounded-pill" type="password" placeholder="Password" name="password" id="password" required>
+    <input class="form-control rounded-4 custom-input" type="text" placeholder="Username" name="username" id="username" required>
   </div>
   <br>
-  <button class="btn btn-primary btn-lg rounded-pill animate__animated animate__fadeInLeft" type="submit">Login</button>
+  <div class="form-group">
+    <label for="password" class="font-weight-medium h5">Password</label>
+    <input class="form-control rounded-4 custom-input" type="password" placeholder="Password" name="password" id="password" required>
+  </div>
+  <br>
+  </div>
+  <button class="btn btn-primary btn-lg animate__animated animate__fadeInLeft" type="submit">Login</button>
 </form>
 <br>
-<p class="font-weight-medium"><a href="{% url 'main:signup' %}" style="color: blue;">Don't have an account yet? Signup</a></p>
+<p class="btn bg-info-subtle"><a href="{% url 'main:signup' %}">Don't have an account yet? Signup</a></p>
 <br>
 {% endblock body %}

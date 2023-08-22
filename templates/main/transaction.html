@@ -1,18 +1,61 @@
 {% extends 'base.html' %}
+
 {% block title %}
 Transaction Details
 {% endblock title %}
+
 {% block body %}
 {% if transaction %}
-<h1>Transaction Details</h1>
-<ul>
-<li><h3 class="text-success">Amount - {{transaction.amount}}</h3>
-<li><h3 class="text-success">Type - {{transaction.type}}</h3>
-<li><h3 class="text-success">Performed By  - {{user.username}}</h3>
-    <li><h3 class="text-success">Reason - {{transaction.reason}}</h3>
-<li><h3 class="text-success">Time - {{transaction.timestamp}} (UTC)</h3>
+  <div class="container mt-3">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+      .card-header h2 {
+        font-size: 28px;
+        margin-bottom: 0;
+        padding: 1rem;
+        color: white;
+        border-radius: 8px 8px 0 0;
+        transition: background-color 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 
-</ul>
-<a href="{% url 'main:transaction_list' %}" class="btn btn-primary">Go Back</a>
+      }
+      .card-header:hover h2 {
+        font-size:32px;
+        transition: font-size 0.4s ease-in;
+      }
+      .card {
+        transition: transform 0.3s ease;
+      }
+      .card:hover {
+        transform: scale(1.001);
+      }
+      .btn-success {
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .btn-success:hover {
+        background-color: #2ecc71;
+        transform: scale(1.05);
+      }
+    </style>
+    <div class="card">
+      <div class="card-header bg-info text-white">
+        <h2 class="mb-0">Transaction Details</h2>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><span class="font-weight-bold"><b>Amount:</b></span>&nbsp;  {{ transaction.amount }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Type:</b></span>&nbsp;  {{ transaction.type }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Performed By:</b></span>&nbsp;  {{ user.username }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Reason:</b></span>&nbsp;  {{ transaction.reason }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Time:</b></span> &nbsp; {{ transaction.timestamp }} (UTC)</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'main:transaction_list' %}" class="btn btn-success">Go Back</a>
+      </div>
+    </div>
+  </div>
 {% endif %}
-{% endblock body %}
+{% endblock body %} 

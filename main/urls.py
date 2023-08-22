@@ -16,5 +16,6 @@ urlpatterns = [
     path("t_list", transaction_list, name="transaction_list"),
     path("d_list", delete_transaction_history, name="delete_transactions"),
     path("transaction/<str:transaction_id>", transaction, name="transaction"),
+    path("tz", SetTimezoneView.as_view(), name="timezone")
 
 ]

@@ -1,8 +1,120 @@
+
+
 {% extends 'base.html' %}
 {% block title %}Index{% endblock title %}
 {% block body %}
 {% load static %}
 <script src="{% static 'bank.js' %}"></script>
+{% comment %} sidebar {% endcomment %}
+<script src="{% static 'bank.js' %}"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5; /* Light gray background */
+  }
+
+  .custom-card {
+    border-radius: 20px;
+    background-color: #ffffff; /* White card background */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .info-section {
+    flex: 1;
+  }
+
+  .image-section {
+    flex: 1;
+    text-align: right;
+  }
+
+  .user-image {
+    width: 150px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .btn-spacing {
+    margin-right: 10px;
+  }
+
+  .custom-heading {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+  }
+
+  .btn-dynamic {
+    margin-top: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .btn-dynamic:hover {
+    transform: scale(1.05);
+  }
+
+  /* Adjust sidebar styling */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px; /* Initial position (off the screen) */
+    width: 280px;
+    height: 100%;
+    background-color: #1be4fa; /* Change the background color */
+    padding-top: 2rem;
+    transition: left 0.3s ease-in-out; /* Add smooth animation */
+    z-index: 1031; /* Ensure it's above other content */
+    box-shadow: 0 0 20px rgba(0, 1, 0, 0.2); /* Add a subtle shadow */
+    overflow-y: auto; /* Enable scrolling for content exceeding height */
+  }
+
+  .sidebar.show {
+    left: 0; /* Show sidebar */
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 1); /* Semi-transparent black */
+    z-index: 1030; /* Below sidebar */
+    display: none;
+  }
+
+  .nav-link {
+    color: white; /* Set text color */
+    transition: color 0.2s ease-in-out; /* Add transition for smoother color change */
+  }
+
+  .nav-link:hover {
+    color: #a0aec0; /* Change color on hover */
+  }
+.gradient-btn {
+
+    background-color:#d0b6f0;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.gradient-btn:hover {
+    background-image: linear-gradient(to bottom right,#fcfcfc,  #FFD700, #FAFAD2);
+}
+</style>
+
 <div id="non-animation">
 <div style="display:none;" class="alert alert-danger" id="amount_less">The amount for transfer is less than your bank balance</div>
 <div style="display:none;" class="alert alert-success" id="transferred">Your transfer has been completed</div>
@@ -10,7 +122,7 @@
 <div id="main" style="display:block;">
 <div style="display: flex; justify-content: space-between;" class="flex">
   <div class="flex-one">
-    <h1 id="name" class="has-text-weight-medium">Hi {{user.name}}</h1>
+    <h1 id="name" class="has-text-weight-medium">Hi {{user.name}},</h1>
   </div>
   <div style="display:flex; flex-direction:column;" class="flex-3">
     <i class="fa-4x fas fa-user-friends" style="text-decoration:none;"></i>
@@ -24,64 +136,53 @@
     </a>
   </div>
 </div>
-<h2>Your bank balance is <span class="text-success">${{user.bank_balance}}</span></h2>
-<br><br>
-<button class="btn btn-primary" onclick="show()">Record Transactions</button>
-
-{% comment %} Transactions file {% endcomment %}
-<br><br><br><br>
-<h1>Transaction History</h1>
+<h3>Your bank balance is <span class="text-success">${{user.bank_balance}}</span></h3>
+{% comment %} Transactions Table {% endcomment %}
+<br>
+<h2> <a class="text-primary link-underline" href="http://{{host}}/t_list">Last 5 Transactions</h1></a>
+<br>
 <table class="table table-bordered">
   <thead>
     <tr>
+      <th>Sr. No.</th>
       <th>Amount</th>
-      <th>Date</th>
       <th>Type</th>
+      <th>Date</th>
+      <th>Reason</th>
     </tr>
   </thead>
   <tbody>
     {% if transactions %}
     {% for transaction in transactions %}
     <tr>
-      <td>{{transaction.amount}}</td>
-      <td><a href="http://{{host}}/transaction/{{transaction.transaction_id}}">{{transaction.timestamp}}</a></td>
+      <td><a href="http://{{host}}/transaction/{{transaction.transaction_id}}">{{forloop.counter}}</td></a>
+      <td class="{{transaction.type}}">{{transaction.amount}}</td>
       <td>{{transaction.type}}</td>
+      <td>{{transaction.timestamp}}</td>
+      <td>{{transaction.reason}}</td>
     </tr>
     {% endfor %}
     {% else %}
     <tr>
-      <td colspan="3" class="text-center">No transactions found.</td>
+      <td colspan="5" class="text-center">No transactions found.</td>
     </tr>
     {% endif %}
   </tbody>
 </table>
 
-<form action="{% url 'main:delete_transactions' %}" method="post">
-  <button type="button" class="btn btn-danger" onclick="WarningPopup1()">Delete transaction history</button>
-  <div class="modal" id="popUp1">
-    {% csrf_token %}
-    <div class="modal-content" id="myPopup1">
-      <h1 class="text"><u>Warning</u> ⚠</h1>
-      <h2 class="text">Are you sure you want to delete your transaction history?</h2>
-      <h4 class="text"> <b>THIS ACTION IS IRREVERSIBLE!!</b> </h4>
-      <br>
-      <input type="submit" value="Yes, Delete it" name="submit" class="btn btn-primary shadow-lg">
-      <br>
-      <span onclick="cancel()" class="btn btn-success">No, Go Back</span>
-    </div>
-  </div>
-</form> 
+<button class="btn btn-dynamic bg-warning-subtle btn-lg" onclick="show()">Record Transactions</button> <br><br>
+<a href="#" class="btn btn-dynamic btn-lg gradient-btn">Analyse Spendings</a>
 
 <br><br>
-<a class="btn btn-danger" href="{% url 'main:logout' %}">Logout</a>
-<br><br>
-<button onclick="WarningPopup()" class="btn-danger btn">Delete your account</button>
+    {% comment %} Sidebar Toggle Button  {% endcomment %}
+    {% comment %} <button class="btn btn-primary" id="sidebarToggle">Toggle Sidebar</button> {% endcomment %}
 </div>
 {% comment %} Transactions form {% endcomment %}
 <div style="display:none;" id="transactions">
-  <button class="btn btn-primary" onclick="add()">Add money</button>
-  <button class="btn btn-primary" onclick="withdraw()">Withdraw Money</button>
-  <button class="btn btn-primary" onclick="back()">Go back</button>
+  <button class="btn bg-success-subtle" onclick="add()">Add money</button> <br><br>
+  <button class="btn bg-danger-subtle" onclick="withdraw()">Withdraw Money</button>
+  <br><br>
+  <button class="btn bg-primary-subtle" onclick="back()">Go back</button>
 </div>
 
 {% comment %} Add money form {% endcomment %}
@@ -94,15 +195,15 @@
         <b><label class="has-text-weight-bold  has-text-centered is-size-5" for="add_amount">Amount added</label></b>
         <input autocomplete="off" onkeypress="return noenter()" class="form-control" type="text" placeholder="Enter amount" name="add_amount" id="add_amount" required>
         <br>
-        <b><label class="has-text-weight-bold  has-text-centered is-size-5" for="reason">Reason</label></b>
-        <input autocomplete="off" onkeypress="return noenter()" class="form-control" type="text" placeholder="Reason" name="reason" id="reason" required>
+        <b><label class="has-text-weight-bold  has-text-centered fs-6" for="reason">Reason</label></b>
+        <input autocomplete="off" onkeypress="return noenter()" class="input-lg form-control" type="text" placeholder="Reason" name="reason" id="reason" required>
         <br>
-        <span id="add_btn" class="btn btn-primary" value="Add money">Add money</span>
+        <span id="add_btn" class="btn bg-success-subtle" value="Add money">Add money</span>
       </div>
     </div>
     <br>
   </form>
-  <button class="btn btn-primary" onclick="back()">Go back</button>
+  <button class="btn bg-primary-subtle" onclick="back()">Go back</button>
 </div>
 
 {% comment %} Withdraw form {% endcomment %}
@@ -119,28 +220,13 @@
         <b><label class="has-text-weight-bold  has-text-centered is-size-5" for="reason">Reason</label></b>
         <input autocomplete="off" onkeypress="return noenter()" class="form-control" type="text" placeholder="Reason" name="reason" id="reason" required>
         <br>
-        <span class="btn btn-primary" id="minus_btn" value="withdraw money">Withdraw money</span>
+        <span class="btn bg-danger-subtle" id="minus_btn" value="withdraw money">Withdraw money</span>
       </div>
     </div>
     <br>
   </form>
-  <button class="btn btn-primary" onclick="back()">Go back</button>
-</div>
+  <button class="btn bg-primary-subtle" onclick="back()">Go back</button>
 
-<div class="modal" id="popUp">
-  <form action="{% url 'main:delete_account' %}" method="post">
-    {% csrf_token %}
-    <div class="modal-content" id="myPopup">
-      <h1 class="text"><u>Warning</u> ⚠</h1>
-      <h2 class="text">Are you sure that you want to delete this account</h2>
-      <h4 class="text"> <b>THIS ACTION IS IRREVERSIBLE</b> </h4>
-      <br>
-      <input type="submit" value="Yes, Delete my account" name="submit" class="btn btn-primary shadow-lg">
-      <br>
-      <span onclick="cancel()" class="btn btn-success">No, Go Back</span>
-    </div>
-  </form>
-</div>
 </div>
 
 <div id="animation" style="display:none;">
@@ -152,4 +238,85 @@
 	<div class="cssload-inner cssload-three"></div>
 </div>
 </div>
+
+
+<style>
+  /* Adjust sidebar styling */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px; /* Initial position (off the screen) */
+    width: 280px;
+    height: 100%;
+    background-color: #34495e; /* Change the background color */
+    padding-top: 2rem;
+    transition: left 0.3s ease-in-out; /* Add smooth animation */
+    z-index: 1031; /* Ensure it's above other content */
+  }
+  .sidebar.show {
+    left: 0; /* Show sidebar */
+  }
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1030; /* Below sidebar */
+    display: none;
+  }
+  .nav-link {
+    color: white; /* Set text color */
+  }
+</style>
+<div id="non-animation">
+<div style="display:none;" class="alert alert-danger" id="amount_less">The amount for transfer is less than your bank balance</div>
+<div style="display:none;" class="alert alert-success" id="transferred">Your transfer has been completed</div>
+
+<div class="container-fluid">
+  <div class="row">
+
+    
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    
+    {% comment %} Siedebar  {% endcomment %}
+    <div class="sidebar" id="sidebar">
+      <div class="position-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="show()">Record Transactions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'main:logout' %}">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="WarningPopup1()">Delete Transaction History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="WarningPopup()">Delete Account</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+  
+  sidebarToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('show');
+    sidebarBackdrop.style.display = sidebar.classList.contains('show') ? 'block' : 'none';
+  });
+  
+  sidebarBackdrop.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    sidebarBackdrop.style.display = 'none';
+  });
+</script>
+
 {% endblock body %}

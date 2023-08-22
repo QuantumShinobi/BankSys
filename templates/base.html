@@ -7,6 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock title %}</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
     <script>
     function noenter() {
   return !(window.event && window.event.keyCode == 13); }
@@ -17,14 +21,17 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/IamEinstein/Djank/gh-pages/sources/bank-icon.jpg" type="image/x-icon">
     <style>
-      body {
+      .body {
         padding: 5%;
         transition-duration: 3s;
         scroll-behavior: smooth;
       }
     </style>
+
   </head>
   <body class="bg-light">
-    {% block body %}{% endblock body %}
+<div class="body">
+  
+    {% block body %}{% endblock body %}</div>
   </body>
 </html>
