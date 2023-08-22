@@ -1,3 +1,4 @@
+from . import categories
 from django.db import models
 import uuid
 import bcrypt
@@ -109,6 +110,8 @@ class Transaction(models.Model):
     transaction_id = models.UUIDField(
         unique=True, default=uuid.uuid4, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(
+        max_length=256, default="Misc", choices=categories)
 
     def __str__(self):
         return f"{self.user.name} - {self.type} -> {self.amount}"
