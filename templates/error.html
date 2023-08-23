@@ -1,49 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" class="has-background-primary-light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error!!!!⚠</title>
-           <link
-             rel="stylesheet"
-             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-             integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-             crossorigin="anonymous"
-           />
-       <link rel="shortcut icon" type="image/x-icon" href="https://twemoji.maxcdn.com/2/svg/26a0.svg">
-       <style>
-       body{
-         padding:5%;
-         background-image: url("https://cdn.discordapp.com/attachments/783676631738482728/822398858293149746/ERROR.png");
-          background-size: 100% 100%;
-          {% comment %} background-position: center; {% endcomment %}
-          background-repeat: no-repeat;
-          background-size: cover;
-       }
+    <title>Error ⚠</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="https://twemoji.maxcdn.com/2/svg/26a0.svg">
+    <style>
+        body {
+            padding: 5%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
-       </style>
-         
+        .error-container {
+            background-color: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-title {
+            font-size: 36px; /* Increased font size */
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+
+        .error-message {
+            font-size: 24px; /* Increased font size */
+            margin-bottom: 20px;
+        }
+
+    
+  .btn-dynamic {
+    margin-top: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .btn-dynamic:hover {
+    transform: scale(1.05);
+  }
+    </style>
 </head>
-<body class="p-6 has-background-primary-light">
-<br><br><br><br><br><br><br><br><br><br>
-<div class="alert alert-danger" role="alert">
-
-
-{% if error %}
-<h3>{{error}}</h3>{% endif %}
-<h3>Redirecting you to home page...</h3>
-
-</div>
-<h1><a class="btn btn-dark" href="{% url 'main:index'%}">Go to main page</a>
-</h1>
-<br><br>
+<body>
+    <img src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/error.jpg?alt=media&token=99df89bb-b2b6-4513-a7bf-4d1fe278a608" alt="Error Image" width="600" height="400">
+    <div class="error-container container-fluid">
+        {% if error %}
+        <h1 class="error-title">{{ error }}</h1>
+        {% endif %}
+        <p class="error-message alert-danger">Redirecting you to the home page...</p>
+        <a class="btn btn-danger btn-dynamic" href="{% url 'main:index' %}">Go to the main page</a>
+    </div>
+    <script>
+        url = window.location.origin;
+        setTimeout(function () {
+            window.location.replace(url);
+        }, 4000);
+    </script>
 </body>
-<script>
-url =window.location.origin 
-setTimeout(function(){window.location.replace(window.location.origin)},2300)
-</script>
-
-
-
 </html>

@@ -45,11 +45,12 @@ Transaction Details
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><span class="font-weight-bold"><b>Amount:</b></span>&nbsp;  {{ transaction.amount }}</li>
-          <li class="list-group-item"><span class="font-weight-bold"><b>Type:</b></span>&nbsp;  {{ transaction.type }}</li>
-          <li class="list-group-item"><span class="font-weight-bold"><b>Performed By:</b></span>&nbsp;  {{ user.username }}</li>
-          <li class="list-group-item"><span class="font-weight-bold"><b>Reason:</b></span>&nbsp;  {{ transaction.reason }}</li>
-          <li class="list-group-item"><span class="font-weight-bold"><b>Time:</b></span> &nbsp; {{ transaction.timestamp }} (UTC)</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Amount:</b></span>&nbsp; &nbsp;  {{currency_symbol}}{{ transaction.amount }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Type:</b></span>&nbsp; &nbsp;   {{ transaction.type }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Category:</b></span>&nbsp;&nbsp;    {{ transaction.category }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Performed By:</b></span>&nbsp; &nbsp;   {{ user.username }}</li>
+          <li class="list-group-item"><span class="font-weight-bold"><b>Reason:</b></span>&nbsp; &nbsp;   {{ transaction.reason }}</li>
+          <li class="list-group-item"><b>Time:&nbsp;  &nbsp;  </b><span class=" time"> &nbsp; {{ transaction.timestamp }} </span></li>
         </ul>
       </div>
       <div class="card-footer">

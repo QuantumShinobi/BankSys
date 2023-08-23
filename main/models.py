@@ -1,9 +1,65 @@
-from . import categories
 from django.db import models
 import uuid
 import bcrypt
 from django.shortcuts import render, redirect
 import json
+categories = (("Groceries", "Groceries"),
+              ("Transportation",
+              "Transportation"),
+              ("Dining", "Dining"),
+              ("Entertainment",
+               "Entertainment"),
+              ("Clothing",
+               "Clothing"),
+              ("Debt Payments",
+               "Debt Payments"),
+              ("Healthcare",
+               "Healthcare"),
+              ("Insurance",
+               "Insurance"),
+              ("Savings and Investments",
+               "Savings and Investments"),
+              ("Taxes",
+               "Taxes"),
+              ("Education",
+               "Education"),
+              ("Charitable Donations",
+               "Charitable Donations"),
+              ("Travel",
+               "Travel"),
+              ("Business Expenses",
+               "Business Expenses"),
+              ("Rent",
+               "Rent"),
+              ("Utilities: Electricity bills, etc.",
+               "Utilities: Electricity bills, etc."),
+              ("Loan Payments",
+               "Loan Payments"),
+              ("Monery Earned", "Monery Earned"),
+              )
+
+currencies = (
+    ("USD", "United States Dollar"),
+    ("EUR", "Euro"),
+    ("JPY", "Japanese Yen"),
+    ("GBP", "British Pound Sterling"),
+    ("AUD", "Australian Dollar"),
+    ("CAD", "Canadian Dollar"),
+    ("CHF", "Swiss Franc"),
+    ("CNY", "Chinese Yuan"),
+    ("INR", "Indian Rupee"),
+    ("BRL", "Brazilian Real"),
+    ("RUB", "Russian Ruble"),
+    ("KRW", "South Korean Won"),
+    ("MXN", "Mexican Peso"),
+    ("ZAR", "South African Rand"),
+    ("SGD", "Singapore Dollar"),
+    ("NZD", "New Zealand Dollar"),
+    ("HKD", "Hong Kong Dollar"),
+    ("SEK", "Swedish Krona"),
+    ("NOK", "Norwegian Krone"),
+    ("TRY", "Turkish Lira")
+)
 
 
 class User(models.Model):
@@ -15,8 +71,8 @@ class User(models.Model):
         unique=True, default=uuid.uuid4, editable=False)
     transaction_list = models.CharField(
         max_length=10485700, null=True, default=None)
-    currency = models.CharField(max_length=256, choices=(("Japanese Yen (JPY)", "Japanese Yen (JPY)"), (
-        "US Dollars",  "US Dollars (USD)"), ("Indian Ruppees (INR)", "Indian Ruppees (INR)")), default="US Dollars (USD)")
+    currency = models.CharField(
+        max_length=256, choices=currencies, default="USD")
 
     def __str__(self):
         return self.username
@@ -89,11 +145,15 @@ class User(models.Model):
 
     def get_transactions(self):
         jsonDec = json.decoder.JSONDecoder()
+        print(self.transaction_list)
         transaction_list = []
         try:
             for id in jsonDec.decode(self.transaction_list):
+                print(id)
+                print(Transaction.objects.get(transaction_id=id))
                 to_append = Transaction.objects.get(
                     transaction_id=id)
+                print(to_append)
                 transaction_list.append(to_append)
             return transaction_list
         except Transaction.DoesNotExist:
@@ -104,14 +164,14 @@ class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.BigIntegerField(null=False, default=100)
     type = models.CharField(max_length=10, choices=(
-        ("add", "add"), ("withdraw",  "withdraw")))
+        ("Add", "Add"), ("Withdraw",  "Withdraw")))
     reason = models.CharField(
         max_length=256, default="No Reason provided", null=False)
     transaction_id = models.UUIDField(
         unique=True, default=uuid.uuid4, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     category = models.CharField(
-        max_length=256, default="Misc", choices=categories)
+        max_length=256, default="Monery Earned", choices=categories)
 
     def __str__(self):
         return f"{self.user.name} - {self.type} -> {self.amount}"

@@ -106,24 +106,27 @@
       <th>Sr. No.</th>
       <th>Amount</th>
       <th>Type</th>
+      <th>Category</th>
       <th>Date</th>
       <th>Reason</th>
+
     </tr>
   </thead>
   <tbody>
     {% if transactions %}
     {% for transaction in transactions %}
     <tr>
-      <td><a href="http://{{host}}/transaction/{{transaction.transaction_id}}">{{forloop.counter}}</td></a>
-      <td class="{{transaction.type}}">{{transaction.amount}}</td>
-      <td>{{transaction.type}}</td>
-      <td>{{transaction.timestamp}}</td>
-      <td>{{transaction.reason}}</td>
+      <td class="{{transaction.type}}"><a href="http://{{host}}/transaction/{{transaction.transaction_id}}">{{forloop.counter}}</td></a>
+      <td class="{{transaction.type}}">{{currency_symbol}}{{transaction.amount}}</td>
+      <td class="{{transaction.type}}">{{transaction.type}}</td>
+      <td class="{{transaction.type}}">{{transaction.category}}</td>
+      <td class="{{transaction.type}} time">{{transaction.timestamp}}</td>
+      <td class="{{transaction.type}}">{{transaction.reason}}</td
     </tr>
     {% endfor %}
     {% else %}
     <tr>
-      <td colspan="5" class="text-center">No transactions found.</td>
+      <td colspan="6" class="text-center">No transactions found.</td>
     </tr>
     {% endif %}
   </tbody>

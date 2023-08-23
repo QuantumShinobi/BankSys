@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Analysis{% endblock title %}
+{% block body %}
+<h1>Here is the analysis of your spendings</h1>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5; /* Light gray background */
+  }
+  
+  .custom-card {
+    border-radius: 20px;
+    background-color: #ffffff; /* White card background */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .info-section {
+    flex: 1;
+  }
+  
+  .image-section {
+    flex: 1;
+    text-align: right;
+  }
+  
+  .user-image {
+    width: 150px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  
+  .btn-spacing {
+    margin-right: 10px;
+  }
+  
+  .custom-heading {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+  }
+  
+  .btn-dynamic {
+    margin-top: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-dynamic:hover {
+    transform: scale(1.05);
+  }
+</style>
+<a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:index' %}">Go back</a>
+
+{% endblock body %}

@@ -5,18 +5,14 @@ from django.shortcuts import redirect, render
 from .models import *
 from .gen import *
 from django.views import View
-from django.http import JsonResponse
 
 
-class SetTimezoneView(View):
-    def get(self, request):
-        return render(request, "main/tz/html")
-
-    def post(self, request):
-        user_timezone = request.POST.get('timezone')
-        # Set the timezone in user's session or database
-        request.session['user_timezone'] = user_timezone
-        return JsonResponse({'message': 'Timezone set successfully'})
+categories = ["Groceries", "Transportation", "Dining", "Entertainment", "Clothing", "Debt Payments", "Healthcare", "Insurance", "Savings and Investments",
+                           "Taxes", "Education", "Charitable Donations", "Travel", "Business Expenses", "Rent", "Utilities: Electricity bills, etc.", "Loan Payments", "Money Earned"]
+currency_symbols = {"USD": "$", "EUR": "€", "JPY": "¥", "GBP": "£", "AUD": "$", "CAD": "$", "CHF": "Fr.", "CNY": "¥", "INR": "₹",
+                    "BRL": "R$", "RUB": "₽", "KRW": "₩", "MXN": "$", "ZAR": "R", "SGD": "$", "NZD": "$", "HKD": "$", "SEK": "kr", "NOK": "kr", "TRY": "₺"}
+currency_names = {"USD": "United States Dollar", "EUR": "Euro", "JPY": "Japanese Yen", "GBP": "British Pound Sterling", "AUD": "Australian Dollar", "CAD": "Canadian Dollar", "CHF": "Swiss Franc", "CNY": "Chinese Yuan", "INR": "Indian Rupee", "BRL": "Brazilian Real",
+                  "RUB": "Russian Ruble", "KRW": "South Korean Won", "MXN": "Mexican Peso", "ZAR": "South African Rand", "SGD": "Singapore Dollar", "NZD": "New Zealand Dollar", "HKD": "Hong Kong Dollar", "SEK": "Swedish Krona", "NOK": "Norwegian Krone", "TRY": "Turkish Lira"}
 
 
 class IndexView(View):
@@ -26,9 +22,13 @@ class IndexView(View):
             user = User.get_user(request=request)
             try:
                 transaction_list = user.get_transactions()
+                if len(transaction_list) == 0:
+                    return render(request, 'main/index.html', context={"user": user, "host": request.META['HTTP_HOST'], "categories": categories, "currency_symbol": currency_symbols[user.currency]})
             except TypeError:
-                transaction_list = ['No transactions']
-            return render(request, 'main/index.html', context={"user": user, "transactions": transaction_list[-5::], "host": request.META['HTTP_HOST']})
+                return render(request, 'main/index.html', context={"user": user, "host": request.META['HTTP_HOST'], "categories": categories, "currency_symbol": currency_symbols[user.currency]})
+            last = transaction_list[-5::]
+            return render(request, 'main/index.html', context={"user": user, "transactions": last[::-1], "host": request.META['HTTP_HOST'], "categories": categories, "currency_symbol": currency_symbols[user.currency]})
+
         return User.get_user(request=request)
 
 
@@ -92,13 +92,20 @@ class LoggedInView(View):
         password = request.POST['password']
         if User.objects.filter(username=username).exists() == True:
             user = User.objects.get(username=username)
-            print(user)
             return user.authenticate(password, request)
         return render(request, "main/login.html", context={'error': "There is no account associated with this username"})
 
     @staticmethod
     def get(request):
         raise Http404()
+
+
+class AnalysisView(View):
+    def get(self, request):
+        return render(request, "main/analysis.html")
+
+    def post(self, request):
+        pass
 
 
 def logout(request):
@@ -110,15 +117,16 @@ def add(request):
         money_to_add = request.POST['add_amount']
         reason = request.POST['reason']
         id = request.COOKIES['user-identity']
+
         user = User.objects.get(unique_id=id)
         try:
             user.bank_balance += int(money_to_add)
             user.save()
             new_transaction_created = Transaction(
-                user=user, amount=money_to_add, type="add", reason=reason)
+                user=user, amount=money_to_add, type="Add", reason=reason)
             user.transaction(new_transaction_created)
         except ValueError:
-            return render(request, "error.html", context={"error": "How can u add a non-number field to your bank balance ?"})
+            return render(request, "error.html", context={"error": "Please enter an integer!"})
         return redirect("main:index")
     return render(request, "error.html", context={"error": "Access Denied"})
 
@@ -126,20 +134,21 @@ def add(request):
 def withdraw(request):
     if request.method == "POST":
         money_to_withdraw = request.POST['withdraw_amount']
+        category = request.POST['category']
         reason = request.POST['reason']
         id = request.COOKIES['user-identity']
         user = User.objects.get(unique_id=id)
         try:
             money_to_withdraw = int(money_to_withdraw)
         except ValueError:
-            return render(request, "error.html", context={"error": "Please enter an integer"})
+            return render(request, "error.html", context={"error": "Please enter an integer!"})
 
         if int(money_to_withdraw) > user.bank_balance:
             return render(request, "error.html", context={"error": "You dont have that much money. YOu BrOkE Bruh 🙁 💸"})
         user.bank_balance -= int(money_to_withdraw)
         user.save()
         new_transaction_created = Transaction(
-            user=user, amount=money_to_withdraw, type="withdraw", reason=reason)
+            user=user, amount=money_to_withdraw, type="Withdraw", reason=reason, category=category)
         user.transaction(new_transaction_created)
         return redirect("main:index")
     return render(request, "error.html", context={"error": "Access Denied"})
@@ -162,7 +171,7 @@ def del_account(request):
 def account(request):
     if isinstance(User.get_user(request=request), User):
         user = User.get_user(request=request)
-        return render(request, "main/account.html", context={"user": user})
+        return render(request, "main/account.html", context={"user": user, "currency_symbol": currency_symbols[user.currency], "currency": currency_names[user.currency], "currencies": [f"{currency_names[a]} ({currency_symbols[a]})" for a in currency_symbols]})
 
     else:
         return User.get_user(request)
@@ -192,10 +201,9 @@ def transaction_list(request):
         user = User.get_user(request=request)
         try:
             transaction_list = user.get_transactions()
-            print(transaction_list)
         except TypeError:
             return render(request, "main/transactions.html", context={"no_t": "You have no transactions"})
-        return render(request, "main/transactions.html", context={"transactions": transaction_list, "host": request.META['HTTP_HOST']})
+        return render(request, "main/transactions.html", context={"transactions": transaction_list, "host": request.META['HTTP_HOST'], "currency_symbol": currency_symbols[user.currency]})
     return User.get_user(request=request)
 
 
@@ -214,6 +222,24 @@ def transaction(request, transaction_id):
     try:
         transaction = Transaction.objects.get(transaction_id=transaction_id)
         user = transaction.user
-        return render(request, "main/transaction.html", context={"transaction": transaction, "user": user})
+        return render(request, "main/transaction.html", context={"transaction": transaction, "user": user, "currency_symbol": currency_symbols[user.currency]})
     except (Transaction.DoesNotExist, KeyError, ValidationError):
         return HttpResponse("Invalid ID")
+
+
+class ChangeCurrencyView(View):
+    def get(self, request):
+        return HttpResponse("Access Denied")
+
+    def post(self, request):
+        user = User.get_user(request=request)
+        currency = request.POST['currency'][:-4]
+
+        for a, b in currency_names.items():
+            if b == currency:
+                c = a
+        user.currency = c
+        host = request.META['HTTP_HOST']
+        user.save()
+
+        return redirect(f"http://{host}/yourAccount?currency_change=true")

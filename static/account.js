@@ -2,6 +2,10 @@ function show_pwd_form() {
   document.getElementById("pwd_form").style.display = "block";
   document.getElementById("main").style.display = "none";
 }
+function show_currency_form() {
+  document.getElementById("currency_form").style.display = "block";
+  document.getElementById("main").style.display = "none";
+}
 function clear_query_string() {
   var uri = window.location.toString();
   if (uri.indexOf("?") > 0) {
@@ -11,6 +15,12 @@ function clear_query_string() {
 }
 
 function back() {
+  location.reload();
+}
+function back2() {
+  location.reload();
+}
+function back1() {
   location.reload();
 }
 const params = new URLSearchParams(window.location.search);
@@ -23,12 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("t_list_erase").style.display = "block";
     clear_query_string();
   }
-  if (params.get("discord_account_linked") === "true") {
-    document.getElementById("discord_account_linked").style.display = "block";
-    clear_query_string();
-  }
-  if (params.get("discord_account_unlinked") === "true") {
-    document.getElementById("discord_account_unlinked").style.display = "block";
+  if (params.get("currency_change") === "true") {
+    document.getElementById("currency_change").style.display = "block";
     clear_query_string();
   }
   if (params.get("pwd_form") === "true") {
@@ -39,11 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("format_incorrect").style.display = "block";
     clear_query_string();
   }
-  btn_submit = document.getElementById("add_mail_submit");
-  btn_submit.onclick = () => {
-    document.getElementById("non-animation").style.display = "none";
-    document.getElementById("animation").style.display = "block";
-  };
 });
 
 function link_discord() {

@@ -11,6 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+  .withdraw{
+    color: #FF0000
+  }
   body {
     font-family: 'Poppins', sans-serif;
     background-color: #f5f5f5; /* Light gray background */
@@ -113,6 +116,21 @@
 .gradient-btn:hover {
     background-image: linear-gradient(to bottom right,#fcfcfc,  #FFD700, #FAFAD2);
 }
+.custom-input {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  width: 20%; /* Adjust the width as desired */
+  transition: border-color 0.3s ease-in-out;
+}
+
+.custom-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
 </style>
 
 <div id="non-animation">
@@ -136,7 +154,7 @@
     </a>
   </div>
 </div>
-<h3>Your bank balance is <span class="text-success">${{user.bank_balance}}</span></h3>
+<h3>Your bank balance is <span class="text-info text-info">{{currency_symbol}}{{user.bank_balance}}</span></h3>
 {% comment %} Transactions Table {% endcomment %}
 <br>
 <h2> <a class="text-primary link-underline" href="http://{{host}}/t_list">Last 5 Transactions</h1></a>
@@ -147,6 +165,7 @@
       <th>Sr. No.</th>
       <th>Amount</th>
       <th>Type</th>
+      <th>Category</th>
       <th>Date</th>
       <th>Reason</th>
     </tr>
@@ -155,23 +174,24 @@
     {% if transactions %}
     {% for transaction in transactions %}
     <tr>
-      <td><a href="http://{{host}}/transaction/{{transaction.transaction_id}}">{{forloop.counter}}</td></a>
-      <td class="{{transaction.type}}">{{transaction.amount}}</td>
-      <td>{{transaction.type}}</td>
-      <td>{{transaction.timestamp}}</td>
-      <td>{{transaction.reason}}</td>
+      <td class="{{transaction.type}}"><a href="http://{{host}}/transaction/{{transaction.transaction_id}}">{{forloop.counter}}</td></a>
+      <td class="{{transaction.type}}">{{currency_symbol}}{{transaction.amount}}</td>
+      <td class="{{transaction.type}}">{{transaction.type}}</td>
+      <td class="{{transaction.type}}">{{transaction.category}}</td>
+      <td class="{{transaction.type}} time">{{transaction.timestamp}}</td>
+      <td class="{{transaction.type}}">{{transaction.reason}}</td>
     </tr>
     {% endfor %}
     {% else %}
     <tr>
-      <td colspan="5" class="text-center">No transactions found.</td>
+      <td colspan="6" class="text-center">No transactions found.</td>
     </tr>
     {% endif %}
   </tbody>
 </table>
 
 <button class="btn btn-dynamic bg-warning-subtle btn-lg" onclick="show()">Record Transactions</button> <br><br>
-<a href="#" class="btn btn-dynamic btn-lg gradient-btn">Analyse Spendings</a>
+<a href="{% url 'main:analysis' %}" class="btn btn-dynamic btn-lg gradient-btn">Analyse Spendings</a>
 
 <br><br>
     {% comment %} Sidebar Toggle Button  {% endcomment %}
@@ -191,19 +211,19 @@
   <form id="add_form" action="{% url 'main:add' %}" method="post">
     {% csrf_token %}
     <div class="row g-1 align-items-center">
-      <div class="col-auto">
-        <b><label class="has-text-weight-bold  has-text-centered is-size-5" for="add_amount">Amount added</label></b>
-        <input autocomplete="off" onkeypress="return noenter()" class="form-control" type="text" placeholder="Enter amount" name="add_amount" id="add_amount" required>
-        <br>
-        <b><label class="has-text-weight-bold  has-text-centered fs-6" for="reason">Reason</label></b>
-        <input autocomplete="off" onkeypress="return noenter()" class="input-lg form-control" type="text" placeholder="Reason" name="reason" id="reason" required>
-        <br>
-        <span id="add_btn" class="btn bg-success-subtle" value="Add money">Add money</span>
+        <b><label class="font-weight-medium h5" for="add_amount">Amount added</label></b>
+        <br><br>
+        <input autocomplete="off" onkeypress="return noenter()" class="form-control rounded-4 custom-input mt-4 mb-4" type="text" placeholder="Enter amount" name="add_amount" id="add_amount" required>
+        
+    <b><label class="font-weight-medium h5" for="reason">Reason</label></b>
+        <input autocomplete="off" onkeypress="return noenter()" class="input-lg form-control rounded-4 custom-input" type="text" placeholder="Reason" name="reason" id="reason" required>
+        <br><br>
       </div>
-    </div>
+
+      <br><br><span id="add_btn" class="btn-lg btn bg-success-subtle" value="Add money">Add money</span><br><br>
     <br>
   </form>
-  <button class="btn bg-primary-subtle" onclick="back()">Go back</button>
+  <button class="btn btn-lg bg-primary-subtle" onclick="back()">Go back</button>
 </div>
 
 {% comment %} Withdraw form {% endcomment %}
@@ -212,20 +232,24 @@
   <form id="minus_form" action="{% url 'main:withdraw' %}" method="post">
     {% csrf_token %}
     <div class="row g-1 align-items-center">
-      <div class="col-auto">
-        <b><label class="has-text-weight-bold  has-text-centered is-size-5" for="withdraw_amount">Amount to withdraw</label></b>
-        <input autocomplete="off" onkeypress="return noenter()" class="form-control" type="text" placeholder="Amount to withdraw" name="withdraw_amount" id="withdraw_amount" required>
+        <b><label class="font-weight-medium h5" for="withdraw_amount">Amount to withdraw</label></b>
+        <input autocomplete="off" onkeypress="return noenter()" class="form-control rounded-4 custom-input mt-4 mb-4" type="text" placeholder="Amount to withdraw" name="withdraw_amount" id="withdraw_amount" required>
+        <b><label class="font-weight-medium h5" for="reason">Reason</label></b>
+        <input autocomplete="off" onkeypress="return noenter()" class="form-control rounded-4 custom-input" type="text" placeholder="Reason" name="reason" id="reason" required>
         <br>
-        <br>
-        <b><label class="has-text-weight-bold  has-text-centered is-size-5" for="reason">Reason</label></b>
-        <input autocomplete="off" onkeypress="return noenter()" class="form-control" type="text" placeholder="Reason" name="reason" id="reason" required>
-        <br>
-        <span class="btn bg-danger-subtle" id="minus_btn" value="withdraw money">Withdraw money</span>
+        <b>
+        <label class="h5 mt-4" for="categorySelect">Select a Category:</label></b>
+                <select class="form-control rounded-4 mt-4 custom-input" id="categorySelect" name="category" required>
+                    {% for category in categories %}
+                        <option id="{{ category }}" value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
       </div>
-    </div>
-    <br>
+      <br><br>
+    <span class="btn btn-lg bg-danger-subtle" id="minus_btn" value="withdraw money">Withdraw money</span>
+    <br><br><br>
   </form>
-  <button class="btn bg-primary-subtle" onclick="back()">Go back</button>
+  <button class="btn btn-lg bg-primary-subtle" onclick="back()">Go back</button>
 
 </div>
 
@@ -238,85 +262,9 @@
 	<div class="cssload-inner cssload-three"></div>
 </div>
 </div>
-
-
-<style>
-  /* Adjust sidebar styling */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px; /* Initial position (off the screen) */
-    width: 280px;
-    height: 100%;
-    background-color: #34495e; /* Change the background color */
-    padding-top: 2rem;
-    transition: left 0.3s ease-in-out; /* Add smooth animation */
-    z-index: 1031; /* Ensure it's above other content */
-  }
-  .sidebar.show {
-    left: 0; /* Show sidebar */
-  }
-  .sidebar-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    z-index: 1030; /* Below sidebar */
-    display: none;
-  }
-  .nav-link {
-    color: white; /* Set text color */
-  }
-</style>
 <div id="non-animation">
 <div style="display:none;" class="alert alert-danger" id="amount_less">The amount for transfer is less than your bank balance</div>
 <div style="display:none;" class="alert alert-success" id="transferred">Your transfer has been completed</div>
 
-<div class="container-fluid">
-  <div class="row">
-
-    
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-    
-    {% comment %} Siedebar  {% endcomment %}
-    <div class="sidebar" id="sidebar">
-      <div class="position-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="show()">Record Transactions</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'main:logout' %}">Logout</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="WarningPopup1()">Delete Transaction History</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="WarningPopup()">Delete Account</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<script>
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  const sidebar = document.getElementById('sidebar');
-  const sidebarBackdrop = document.getElementById('sidebarBackdrop');
-  
-  sidebarToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('show');
-    sidebarBackdrop.style.display = sidebar.classList.contains('show') ? 'block' : 'none';
-  });
-  
-  sidebarBackdrop.addEventListener('click', () => {
-    sidebar.classList.remove('show');
-    sidebarBackdrop.style.display = 'none';
-  });
-</script>
 
 {% endblock body %}
