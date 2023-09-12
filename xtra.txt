@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <h1>Spending Analysis by Category</h1>
+  <canvas id="spendingChart" width="400" height="200"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    var ctx = document.getElementById('spendingChart').getContext('2d');
+    var categories = {{ categories|safe }};
+    var spendingTotals = {{ spending_totals|safe }};
+
+    var data = {
+      labels: categories,
+      datasets: [{
+        label: 'Spending by Category',
+        data: spendingTotals,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 205, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 205, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(54, 162, 235, 1)',
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    var options = {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: options
+    });
+  </script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5; /* Light gray background */
+  }
+  
+  .custom-card {
+    border-radius: 20px;
+    background-color: #ffffff; /* White card background */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .info-section {
+    flex: 1;
+  }
+  
+  .image-section {
+    flex: 1;
+    text-align: right;
+  }
+  
+  .user-image {
+    width: 150px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  
+  .btn-spacing {
+    margin-right: 10px;
+  }
+  
+  .custom-heading {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+  }
+  
+  .btn-dynamic {
+    margin-top: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-dynamic:hover {
+    transform: scale(1.05);
+  }
+</style>
+<a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:index' %}">Go back</a>
+{% endblock %}

@@ -17,8 +17,8 @@ categories = (("Groceries", "Groceries"),
                "Healthcare"),
               ("Insurance",
                "Insurance"),
-              ("Savings and Investments",
-               "Savings and Investments"),
+              ("Investment",
+               "Investment"),
               ("Taxes",
                "Taxes"),
               ("Education",
@@ -31,11 +31,11 @@ categories = (("Groceries", "Groceries"),
                "Business Expenses"),
               ("Rent",
                "Rent"),
-              ("Utilities: Electricity bills, etc.",
-               "Utilities: Electricity bills, etc."),
+              ("Utilities",
+               "Utilities"),
               ("Loan Payments",
                "Loan Payments"),
-              ("Monery Earned", "Monery Earned"),
+              #   ("Money Earned", "Money Earned"),
               )
 
 currencies = (
@@ -171,7 +171,7 @@ class Transaction(models.Model):
         unique=True, default=uuid.uuid4, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     category = models.CharField(
-        max_length=256, default="Monery Earned", choices=categories)
+        max_length=256, default="Money Earned", choices=categories)
 
     def __str__(self):
         return f"{self.user.name} - {self.type} -> {self.amount}"

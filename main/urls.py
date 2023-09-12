@@ -16,7 +16,8 @@ urlpatterns = [
     path("t_list", transaction_list, name="transaction_list"),
     path("d_list", delete_transaction_history, name="delete_transactions"),
     path("transaction/<str:transaction_id>", transaction, name="transaction"),
-    path("analysis", AnalysisView.as_view(), name="analysis"),
-    path("changeCurrency", ChangeCurrencyView.as_view(), name="change_currency")
+    # path("analysis", AnalysisView.as_view(), name="analysis"),
+    path("changeCurrency", ChangeCurrencyView.as_view(), name="change_currency"),
+    path("analysis", spending_analysis, name="analysis")
 
 ]

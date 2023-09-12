@@ -1,0 +1,11 @@
+user,name,amount,type,reason,transaction_id,timestamp,category
+1d06b5ab-3509-4c57-9c46-7b844bb93a79,Ash,1000,Add,nothing,341d5fb0-01c1-4ea8-999e-0ea1ba677a0f,2023-08-23 17:57:41.713886+00:00,Money Earned
+1d06b5ab-3509-4c57-9c46-7b844bb93a79,Ash,100,Withdraw,pizza,2c78f6f1-c71c-4b4e-bd46-fb898b04226a,2023-08-23 17:57:59.520128+00:00,Savings and Investments
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,100000,Add,Salary,81e25fd2-8858-419c-b4ad-d3730b61290c,2023-09-12 17:58:21.012415+00:00,Money Earned
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,1000,Withdraw,No,de037745-202d-4851-8676-3792e8feac92,2023-09-12 17:58:28.949406+00:00,Transportation
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,234,Withdraw,Money spent,29c98828-2319-4e65-8283-1a9c054e875b,2023-09-12 17:58:47.138108+00:00,Entertainment
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,1000,Withdraw,Money spent,7ef52cc5-5de6-461b-8022-0f5026e93041,2023-09-12 17:59:01.133116+00:00,Groceries
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,10942,Withdraw,Money spent,1e581f80-5185-4687-91bc-a11a58774c10,2023-09-12 17:59:09.538203+00:00,Entertainment
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,1449,Withdraw,Money spent,25d56c0a-aaab-450c-8667-db58afc7f112,2023-09-12 17:59:19.786124+00:00,Transportation
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,324,Withdraw,Money spent,be92a34b-dd04-45d8-a632-45df8a00e64c,2023-09-12 17:59:39.170798+00:00,Entertainment
+594a18b7-f55f-41bf-b5a8-a8f43eafb249,Ash,1425,Withdraw,Money spent,337dea7a-7f5a-40ec-a4ff-4db406f9d6f7,2023-09-12 17:59:50.424783+00:00,Dining

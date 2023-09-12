@@ -1,12 +1,94 @@
-{% extends 'base.html' %}
-{% block title %}Analysis{% endblock title %}
+{% extends "base.html" %}
+
 {% block body %}
-<h1>Here is the analysis of your spendings</h1>
+  <h1 style="margin-bottom: 20px;">Spending Analysis by Category</h1>
+  <div class="chart-container">
+    <canvas id="spendingBarChart" style="margin-right: 20px;"></canvas>
+    <canvas id="spendingPieChart" class="p-5" style="margin: 20px;"></canvas>
+  </div>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    var barCtx = document.getElementById('spendingBarChart').getContext('2d');
+    var pieCtx = document.getElementById('spendingPieChart').getContext('2d');
+    
+    var categories = {{ categories|safe }};
+    var spendingTotals = {{ spending_totals|safe }};
 
-<style>
-  body {
+    // Determine the container's width and height dynamically for the bar chart
+    var barContainer = document.getElementById('spendingBarChart').parentElement;
+    barCtx.canvas.width = barContainer.offsetWidth;
+    barCtx.canvas.height = 300; // You can adjust the height as needed
+    
+    // Determine the container's width and set a smaller default height for the pie chart
+    var pieContainer = document.getElementById('spendingPieChart').parentElement;
+    pieCtx.canvas.width = 200;
+    pieCtx.canvas.height = 100; // Set a smaller default height
+
+    // Additional colors for both charts
+    var additionalColors = [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(255, 102, 0, 0.2)',
+      'rgba(255, 204, 0, 0.2)',
+      'rgba(0, 102, 204, 0.2)',
+      'rgba(0, 204, 102, 0.2)',
+      'rgba(102, 204, 0, 0.2)',
+      'rgba(204, 0, 102, 0.2)'
+    ];
+
+    var barChartData = {
+      labels: categories,
+      datasets: [{
+        label: 'Spending by Category',
+        data: spendingTotals,
+        backgroundColor: additionalColors.slice(0, categories.length), // Use the additional colors
+        borderColor: additionalColors.slice(0, categories.length),
+        borderWidth: 1
+      }]
+    };
+
+    var pieChartData = {
+      labels: categories,
+      datasets: [{
+        data: spendingTotals,
+        backgroundColor: additionalColors.slice(0, categories.length), // Use the additional colors
+        borderColor: additionalColors.slice(0, categories.length),
+        borderWidth: 1
+      }]
+    };
+
+    var barChartOptions = {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    var pieChartOptions = {};
+
+    var barChart = new Chart(barCtx, {
+      type: 'bar',
+      data: barChartData,
+      options: barChartOptions
+    });
+
+    var pieChart = new Chart(pieCtx, {
+      type: 'pie',
+      data: pieChartData,
+      options: pieChartOptions
+    });
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+     body {
     font-family: 'Poppins', sans-serif;
     background-color: #f5f5f5; /* Light gray background */
   }
@@ -56,7 +138,7 @@
   .btn-dynamic:hover {
     transform: scale(1.05);
   }
-</style>
-<a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:index' %}">Go back</a>
+  </style>
 
-{% endblock body %}
+  <a class="btn btn-primary btn-spacing btn-dynamic" href="{% url 'main:index' %}">Go back</a>
+{% endblock %}

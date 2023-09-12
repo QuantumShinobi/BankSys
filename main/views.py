@@ -1,3 +1,4 @@
+from django.db.models import Sum
 import bcrypt
 from django.core.exceptions import ValidationError
 from django.http.response import Http404, HttpResponse
@@ -22,6 +23,7 @@ class IndexView(View):
             user = User.get_user(request=request)
             try:
                 transaction_list = user.get_transactions()
+                print(transaction_list)
                 if len(transaction_list) == 0:
                     return render(request, 'main/index.html', context={"user": user, "host": request.META['HTTP_HOST'], "categories": categories, "currency_symbol": currency_symbols[user.currency]})
             except TypeError:
@@ -243,3 +245,33 @@ class ChangeCurrencyView(View):
         user.save()
 
         return redirect(f"http://{host}/yourAccount?currency_change=true")
+
+
+def spending_analysis(request):
+    if isinstance(User.get_user(request=request), User):
+        user = User.get_user(request=request)
+        try:
+            transaction_list = user.get_transactions()
+        except TypeError:
+            return HttpResponse("No transactions")
+    # analyse_spending()
+    # Get total spending by category
+    spending_by_category = Transaction.objects.values(
+        'category').annotate(total=Sum('amount'))
+
+    categories = []
+    spending_totals = []
+
+    for item in spending_by_category:
+        # print(item)
+        if item['category'] != "Money Earned":
+            # print(item)
+            categories.append(item['category'])
+            spending_totals.append(float(item['total']))
+    print(categories, spending_totals)
+    context = {
+        'categories': categories,
+        'spending_totals': spending_totals,
+    }
+
+    return render(request, 'main/analysis.html', context)
