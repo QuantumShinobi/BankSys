@@ -252,26 +252,20 @@ def spending_analysis(request):
         user = User.get_user(request=request)
         try:
             transaction_list = user.get_transactions()
+            expenditure = {}
+            total_expenditure = 0
+            for transaction in transaction_list:
+                if transaction.category != "Money Earned":
+                    if transaction.category not in expenditure.keys():
+                        expenditure[transaction.category] = transaction.amount
+                    else:
+                        expenditure[transaction.category] += transaction.amount
+                    total_expenditure += transaction.amount
         except TypeError:
-            return HttpResponse("No transactions")
-    # analyse_spending()
-    # Get total spending by category
-    spending_by_category = Transaction.objects.values(
-        'category').annotate(total=Sum('amount'))
-
-    categories = []
-    spending_totals = []
-
-    for item in spending_by_category:
-        # print(item)
-        if item['category'] != "Money Earned":
-            # print(item)
-            categories.append(item['category'])
-            spending_totals.append(float(item['total']))
-    print(categories, spending_totals)
+            return render(request, "main/logout.html", context={"text": "No transactions"})
     context = {
-        'categories': categories,
-        'spending_totals': spending_totals,
+        'categories': list(expenditure.keys()),
+        'spending_totals': list(expenditure.values()),
     }
 
     return render(request, 'main/analysis.html', context)
