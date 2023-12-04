@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block title %}Banking Management{% endblock title %}
+{% block body %}
+
+<!-- Navbar -->
+
+<!-- Top part -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet">
+<div class="position-relative m-md-3 text-center bg-light">
+  <div
+    style="
+      background-image: url('https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/2494bd24d94c7c07aa44279f5d3e9591.jpg?alt=media&token=64b47e57-826c-41e6-99d1-b2eef584df3b');
+      background-size: 2000px;
+    "
+    class="overflow-visible bg-img mx-auto"
+  >
+    <br /><br /><br /><br /><br />
+    <h1 class="text-lg display-4 text-white fw-normal">Banking Management</h1>
+    <br><br>
+    {% comment %} <h2 class="display-8 text-white">Computer project</h2> {% endcomment %}
+    <p class="lead fw-normal text-white">Smart, Efficient and Simple</p>
+    <br /><br /><br />
+    {% comment %}
+    <a class="btn btn-btn-outline-light" href="{% url 'main:login' %}"
+      >Try it</a
+    >
+    {% endcomment %}
+  </div>
+</div>
+<!-- Adding about info -->
+<section class="py-5 text-center container">
+  <div class="shadow rounded row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light" id="about">About</h1>
+      <p class="lead text-muted">
+        The Online Financial Bank Management System is a project that aims to create an online banking platform using Python and its libraries. The system allows customers to securely access their accounts and perform various financial transactions, such as depositing, withdrawing, transferring, or checking their balance. It also helps the user to analyze their expenses by showing a pie chart and a bar graph of the expenditure according to the categories where the money has been spent. The system is designed to be user-friendly, comprehensive, and robust, ensuring a smooth and convenient banking experience.
+      </p>
+      <p>
+        <a href="#" class="btn btn-primary my-2">Top</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Features column -->
+<u>
+<h1 class="text-center fw-dark">Features</h1></u>
+<br />
+<main>
+  <div class="m-2 row row-cols-1 row-cols-md-3 mb-3 text-center">
+    <div class="col">
+      <div class="card mb-1 rounded-3 shadow-sm border-info-subtle">
+        <div class="card-header py-3 text-bg-info">
+          <h4 class="my-0 fw-normal">Simple UI</h4>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>A user-friendly and easy-to-use UI</li>
+            <li>
+              <img height="175" class="rounded img-fluid" src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/SCR-20231204-jmzq.png?alt=media&token=5006c40f-f4fc-4f31-b814-8414edb11b71" alt="">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- new 2 -->
+    <div class="col">
+      <div class="card mb-1 rounded-3 shadow-sm border-danger-subtle">
+        <div class="card-header py-3 text-bg-danger">
+          <h4 class="my-0 fw-normal">See your spending analysis</h4>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Analyse your spendings with pie charts and bar graphs</li>
+            <li>
+              <img height="175" class="rounded img-fluid" src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/SCR-20231204-jnxo.png?alt=media&token=c3819517-7a02-4bc1-a7f3-1704fb6e0026" alt="">
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!-- new 3 -->
+    <div class="col">
+      <div class="card mb-1 rounded-3 shadow-sm border-warning-subtle">
+        <div class="card-header py-3 text-bg-warning">
+          <h4 class="my-0 fw-normal">See your transaction history</h4>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>A detailed transaction history to keep track of your previous spendings!</li>
+            <li>
+              <img height="175" class="rounded img-fluid" src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/SCR-20231204-joso.png?alt=media&token=a90f90c6-2962-4fb7-8238-3132cbed0114" alt="">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<br /><br /><br />
+
+<!-- Try it out part -->
+<div class="d-grid gap-2 col-6 mx-auto">
+  <a
+    href="{% url 'main:login' %}"
+    class="text-center btn btn-success btn-lg"
+    >Try it out</a
+  >
+</div>
+
+<!-- Adding footer -->
+<div class="container">
+  <footer
+    class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top"
+  >
+    <div class="col mb-3">
+      <p
+        href="/"
+        class="fs-2 text-lg-start d-flex align-items-center mb-3 link-dark text-decoration-none"
+      >
+      <img src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef5916225" width="100" alt="">
+      Banking Management
+      </p>
+      <p class="text-muted">&nbsp;© 2023</p>
+    </div>
+
+    <div class="col mb-3"></div>
+
+    <div class="col mb-3">
+      <h5 id="contact">Address</h5>
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2">
+          <span href="#" class="nav-link p-0 text-muted"
+            >Koto-ku <br />
+            Tokyo, Japan</span
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="col mb-3">
+      <h5>Contact</h5>
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2">
+          <span href="#" class="nav-link p-0 text-muted"
+            >Phone: +81 000 0000 00000</span
+          >
+        </li>
+        <li class="nav-item mb-2">
+          <span href="#" class="nav-link p-0 text-muted"
+            >Email: doubtme@memail.com</span
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="col mb-3">
+      <h5 class="text-success">Made by</h5>
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2">
+          <span href="#" class="nav-link p-0 text-primary-emphasis"
+            >Rishit Verma</span
+          >
+        </li>
+        <li class="nav-item mb-2">
+          <span href="#" class="nav-link p-0 text-primary-emphasis"
+            >Vrishti Choudhary</span
+          >
+        </li>
+        <li class="nav-item mb-2">
+          <span href="#" class="nav-link p-0 text-primary-emphasis"
+            >Tanishq Singh </span
+          >
+        </li>
+      </ul>
+    </div>
+  </footer>
+</div>
+
+{% endblock body %}
