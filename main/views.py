@@ -445,8 +445,7 @@ class AddFriends(View):
         else:
             current_user = User.get_user(request=request)
             current_user.add_friend(friend.username)
-            return redirect(
-                f"http://{request.META['HTTP_HOST']}/addFriends?added=true")
+            return redirect(f"http://{request.META['HTTP_HOST']}/addFriends?added=true")
 
 
 # Money transferring
@@ -507,5 +506,4 @@ class TransferView(View):
         recipient_transaction.save()
         recipient.save()
         sender.save()
-        return redirect(
-            f"http://{request.META['HTTP_HOST']}/index?transferred=true")
+        return redirect(f"http://{request.META['HTTP_HOST']}/index?transferred=true")
