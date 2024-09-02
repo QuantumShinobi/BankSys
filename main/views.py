@@ -479,10 +479,7 @@ class TransferView(View):
                           })
 
         if sender.bank_balance < int(amount):
-            return redirect(
-                f"http://{request.META['HTTP_HOST']
-                          }/index/?transfer_form=true&amount_less=true"
-            )
+            return redirect(f"http://{request.META['HTTP_HOST']}/index/?transfer_form=true&amount_less=true")
         recipient.bank_balance += int(amount)
         sender.bank_balance -= int(amount)
         sender_transaction = Transaction(
