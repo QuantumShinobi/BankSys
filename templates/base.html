@@ -9,7 +9,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link
     rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+
+      <!-- HTML Meta Tags -->
+      <meta name="description" content="Banksys is a comprehensive and user-friendly system designed to streamline and enhance the management of financial transactions">
+
+      <!-- Facebook Meta Tags -->
+      <meta property="og:url" content="https://banksys.rishitverma1.repl.co/">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="BankSys">
+      <meta property="og:description" content="Banksys is a comprehensive and user-friendly system designed to streamline and enhance the management of financial transactions">
+      <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef591622">
+
+      <!-- Twitter Meta Tags -->
+      <meta name="twitter:card" content="summary_large_image">
+      <meta property="twitter:domain" content="banksys.rishitverma1.repl.co">
+      <meta property="twitter:url" content="https://banksys.rishitverma1.repl.co/">
+      <meta name="twitter:title" content="BankSys">
+      <meta name="twitter:description" content="Banksys is a comprehensive and user-friendly system designed to streamline and enhance the management of financial transactions">
+      <meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef591622">
+
+      <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />
     <script>
     function noenter() {
@@ -19,11 +40,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="{% static 'index.js' %}"></script>
     <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <!-- <link rel="shortcut icon" href="https://raw.githubusercontent.com/IamEinstein/Djank/gh-pages/sources/bank-icon.jpg" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet">
@@ -33,7 +49,7 @@
         transition-duration: 3s;
         scroll-behavior: smooth;
         font-family: 'Urbanist', sans-serif;
-      }
+      /* } */
     </style>
 
   </head>
@@ -46,7 +62,7 @@
       <a class="navbar-brand card-header" href="{% url 'main:home' %}">
         <img src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef5916225" width="73" alt="">
         &nbsp;
-        Banking Management
+        BankSys
       </a>
       <button
         class="navbar-toggler"
@@ -62,6 +78,11 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
+            <a class="btn btn-outline-success m-1" href="{% url 'main:home' %}"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
             &nbsp;
             <a
               class="btn btn-outline-info m-1"
@@ -73,11 +94,7 @@
           <li class="nav-item">
             <a class="btn btn-outline-info m-1" href="{% url 'main:home' %}#contact">Contact</a>
           </li>
-          <li class="nav-item">
-            <a class="btn btn-outline-success m-1" href="{% url 'main:login' %}"
-              >Login</a
-            >
-          </li>
+          
         </ul>
       </div>
     </div>

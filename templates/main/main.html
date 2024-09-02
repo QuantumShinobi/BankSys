@@ -1,26 +1,123 @@
-{% extends 'base.html' %}
-{% block title %}Banking Management{% endblock title %}
-{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="has-background-primary-light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BankSys</title>
 
-<!-- Navbar -->
+    <!-- HTML Meta Tags -->
+    <title>BankSys</title>
+    <meta name="description" content="Banksys is a comprehensive and user-friendly system designed to streamline and enhance the management of financial transactions">
 
-<!-- Top part -->
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://banksys.rishitverma1.repl.co/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BankSys">
+    <meta property="og:description" content="Banksys is a comprehensive and user-friendly system designed to streamline and enhance the management of financial transactions">
+    <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef591622">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="banksys.rishitverma1.repl.co">
+    <meta property="twitter:url" content="https://banksys.rishitverma1.repl.co/">
+    <meta name="twitter:title" content="BankSys">
+    <meta name="twitter:description" content="Banksys is a comprehensive and user-friendly system designed to streamline and enhance the management of financial transactions">
+    <meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef591622">
+
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+    <script>
+    function noenter() {
+  return !(window.event && window.event.keyCode == 13); }
+  </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="{% static 'index.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet">
+    <style>
+      .body {
+        padding-bottom: 5%;
+        transition-duration: 3s;
+        scroll-behavior: smooth;
+        font-family: 'Urbanist', sans-serif;
+      /* } */
+    </style>
+
+  </head>
+  <body class="bg-light">
+<div class="body">
+  <nav id="navbar "class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      &nbsp;
+
+      <a class="navbar-brand card-header" href="{% url 'main:home' %}">
+        <img src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef5916225" width="73" alt="">
+        &nbsp;
+        BankSys
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            &nbsp;
+            <a
+              class="btn btn-outline-info m-1"
+              aria-current="page"
+              href="{% url 'main:home' %}#about"
+              >About</a
+            >&nbsp;
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-info m-1" href="{% url 'main:home' %}#contact">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-success m-1" href="{% url 'main:login' %}"
+              >Login</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<br>
+  <div class="ms-5 me-5">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet">
 <div class="position-relative m-md-3 text-center bg-light">
   <div
     style="
-      background-image: url('https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/2494bd24d94c7c07aa44279f5d3e9591.jpg?alt=media&token=64b47e57-826c-41e6-99d1-b2eef584df3b');
+      background-image: url('https://firebasestorage.googleapis.com/v0/b/anythm-b51a4.appspot.com/o/360_F_500592051_wKXH8eZ1Te5OrMqBciEZdk8OrXgG0GW4.jpg?alt=media&token=cfb91d9c-f60e-4182-adb4-26c20deb35a2');
       background-size: 2000px;
     "
     class="overflow-visible bg-img mx-auto"
   >
     <br /><br /><br /><br /><br />
-    <h1 class="text-lg display-4 text-white fw-normal">Banking Management</h1>
+    <h1 class="text-lg display-4 text-white fw-normal">BankSys</h1>
     <br><br>
     {% comment %} <h2 class="display-8 text-white">Computer project</h2> {% endcomment %}
-    <p class="lead fw-normal text-white">Smart, Efficient and Simple</p>
+    <p class="lead fw-normal text-white">A smart, efficient and simple Banking management system</p>
     <br /><br /><br />
     {% comment %}
     <a class="btn btn-btn-outline-light" href="{% url 'main:login' %}"
@@ -35,7 +132,7 @@
     <div class="col-lg-6 col-md-8 mx-auto">
       <h1 class="fw-light" id="about">About</h1>
       <p class="lead text-muted">
-        The Online Financial Bank Management System is a project that aims to create an online banking platform using Python and its libraries. The system allows customers to securely access their accounts and perform various financial transactions, such as depositing, withdrawing, transferring, or checking their balance. It also helps the user to analyze their expenses by showing a pie chart and a bar graph of the expenditure according to the categories where the money has been spent. The system is designed to be user-friendly, comprehensive, and robust, ensuring a smooth and convenient banking experience.
+        Banksys is a comprehensive and user-friendly system designed to streamline and enhance the management of financial transactions. This project leverages Python and its libraries to create a robust online banking platform, where users can record their transactions and see the analysis of their spendings.
       </p>
       <p>
         <a href="#" class="btn btn-primary my-2">Top</a>
@@ -125,7 +222,7 @@
         class="fs-2 text-lg-start d-flex align-items-center mb-3 link-dark text-decoration-none"
       >
       <img src="https://firebasestorage.googleapis.com/v0/b/discord-uploads.appspot.com/o/icon.png?alt=media&token=a1681509-40bf-4e36-891d-f96ef5916225" width="100" alt="">
-      Banking Management
+      BankSys
       </p>
       <p class="text-muted">&nbsp;© 2023</p>
     </div>
@@ -148,13 +245,13 @@
       <h5>Contact</h5>
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
-          <span href="#" class="nav-link p-0 text-muted"
-            >Phone: +81 000 0000 00000</span
+          <span href="https://github.com/QuantumShinobi" class="nav-link p-0 text-muted"
+            >Github: QuantumShinobi</span
           >
         </li>
         <li class="nav-item mb-2">
           <span href="#" class="nav-link p-0 text-muted"
-            >Email: doubtme@memail.com</span
+            >Email: </span
           >
         </li>
       </ul>
@@ -165,17 +262,7 @@
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
           <span href="#" class="nav-link p-0 text-primary-emphasis"
-            >Rishit Verma</span
-          >
-        </li>
-        <li class="nav-item mb-2">
-          <span href="#" class="nav-link p-0 text-primary-emphasis"
-            >Vrishti Choudhary</span
-          >
-        </li>
-        <li class="nav-item mb-2">
-          <span href="#" class="nav-link p-0 text-primary-emphasis"
-            >Tanishq Singh </span
+            >Rishit</span
           >
         </li>
       </ul>
@@ -183,4 +270,6 @@
   </footer>
 </div>
 
-{% endblock body %}
+    </div></div>
+      </body>
+    </html>

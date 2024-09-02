@@ -61,7 +61,7 @@
         <a class="btn btn-danger btn-dynamic" href="{% url 'main:index' %}">Go to the main page</a>
     </div>
     <script>
-        url = window.location.origin;
+        url = window.location.origin + "/index";
         setTimeout(function () {
             window.location.replace(url);
         }, 4000);

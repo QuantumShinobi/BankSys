@@ -250,13 +250,9 @@ def withdraw(request):
                           context={"error": "Please enter an integer!"})
 
         if int(money_to_withdraw) > user.bank_balance:
-            return render(
-                request,
-                "error.html",
-                context={
-                    "error":
-                    "You dont have that much money. YOu BrOkE Bruh 🙁 💸"
-                })
+            return render(request,
+                          "error.html",
+                          context={"error": "You don't have that much money"})
 
         user.bank_balance -= int(money_to_withdraw)
         user.save()
@@ -443,7 +439,8 @@ class AddFriends(View):
             friend = User.objects.get(username=friend_username)
         except User.DoesNotExist:
             return redirect(
-                f"http://{request.META['HTTP_HOST']}/addFriends?doesnotexist=true"
+                f"http://{request.META['HTTP_HOST']
+                          }/addFriends?doesnotexist=true"
             )
         else:
             current_user = User.get_user(request=request)
@@ -458,14 +455,12 @@ class TransferView(View):
         raise Http404
 
     def post(self, request):
-        print("HERE")
         amount = request.POST['transfer_amount']
-        print("HELLLOOO", amount)
         recipient_username = request.POST['transfer_user']
         sender = User.get_user(request=request)
         print(recipient_username)
         try:
-            recipient = User.objects.get(username=recipient_username.lower())
+            recipient = User.objects.get(username=recipient_username)
 
         except User.DoesNotExist:
             resp = render(
@@ -489,7 +484,8 @@ class TransferView(View):
 
         if sender.bank_balance < int(amount):
             return redirect(
-                f"http://{request.META['HTTP_HOST']}/?transfer_form=true&amount_less=true"
+                f"http://{request.META['HTTP_HOST']
+                          }/index/?transfer_form=true&amount_less=true"
             )
         recipient.bank_balance += int(amount)
         sender.bank_balance -= int(amount)
@@ -512,4 +508,4 @@ class TransferView(View):
         recipient.save()
         sender.save()
         return redirect(
-            f"http://{request.META['HTTP_HOST']}/?transferred=true")
+            f"http://{request.META['HTTP_HOST']}/index?transferred=true")

@@ -271,7 +271,7 @@
         <label class="h5 mt-4" for="transfer_user">Select the Friend to whom you want to Transfer:</label></b>
                 <select class="form-control rounded-4 mt-4 custom-input" id="transfer_user" name="transfer_user" required>
                     {% for friend in friends %}
-                        <option id="{{ friend }}" value="{{ friend.name }}">{{ friend }}</option>
+                        <option id="{{ friend }}" value="{{ friend.username }}">{{ friend.name }}</option>
                     {% endfor %}
                 </select>
       </div>
