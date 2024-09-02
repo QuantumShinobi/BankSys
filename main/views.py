@@ -438,10 +438,7 @@ class AddFriends(View):
         try:
             friend = User.objects.get(username=friend_username)
         except User.DoesNotExist:
-            return redirect(
-                f"http://{request.META['HTTP_HOST']
-                          }/addFriends?doesnotexist=true"
-            )
+            return redirect(f"http://{request.META['HTTP_HOST']}/addFriends?doesnotexist=true")
         else:
             current_user = User.get_user(request=request)
             current_user.add_friend(friend.username)
